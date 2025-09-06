@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.Extensions.DependencyInjection;
 using myPortal.Authentication.Application.Abstraction.Request;
 using myPortal.Authentication.Infrastructure.Request;
 
@@ -37,5 +39,14 @@ public static class InfrastructureServiceRegistration
         service.AddScoped<IRequestDispatcher, RequestDispatcher>();
 
         return service;
+    }
+
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+    {
+        FirebaseApp.Create(new AppOptions
+        {
+            Credential = GoogleCredential.FromFile("firebase.json")
+        });
+        return services;
     }
 }

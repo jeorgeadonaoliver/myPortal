@@ -16,4 +16,8 @@
     <ProjectReference Include="..\myPortal.Authentication.Infrastructure\myPortal.Authentication.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoint\" />
+  </ItemGroup>
+
 </Project>

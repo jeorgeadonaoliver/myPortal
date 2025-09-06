@@ -430,3 +430,4 @@ yarn-error.log*
 # Parcel or Vite cache (if used)
 .cache/
 
+*.json
