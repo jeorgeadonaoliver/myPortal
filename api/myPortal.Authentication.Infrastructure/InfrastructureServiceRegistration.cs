@@ -1,0 +1,41 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using myPortal.Authentication.Application.Abstraction.Request;
+using myPortal.Authentication.Infrastructure.Request;
+
+namespace myPortal.Authentication.Infrastructure;
+
+public static class InfrastructureServiceRegistration
+{
+    public static IServiceCollection AddRequestService(this IServiceCollection service)
+    {
+        service.AddScoped(typeof(RequestHandlerWrapper<,>));
+
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        var handlerInterfaceType = typeof(IRequestHandler<,>);
+
+        var handlerTypes = assemblies
+            .SelectMany(a => a.GetTypes())
+            .Where(t => !t.IsAbstract && !t.IsInterface)
+            .Select(t => new
+            {
+                ServiceType = t.GetInterfaces()
+                    .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == handlerInterfaceType),
+                ImplementationType = t
+            })
+            .Where(x => x.ServiceType != null);
+
+        foreach (var type in handlerTypes)
+        {
+            service.AddTransient(type.ServiceType, type.ImplementationType);
+
+            var requestType = type.ServiceType.GenericTypeArguments[0];
+            var responseType = type.ServiceType.GenericTypeArguments[1];
+            var wrapperClosedType = typeof(RequestHandlerWrapper<,>).MakeGenericType(requestType, responseType);
+            service.AddTransient(typeof(IRequestHandlerWrapper), wrapperClosedType);
+        }
+
+        service.AddScoped<IRequestDispatcher, RequestDispatcher>();
+
+        return service;
+    }
+}
