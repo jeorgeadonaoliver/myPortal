@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myPortal.Authentication.Api", "myPortal.Authentication.Api\myPortal.Authentication.Api.csproj", "{1E6E56C2-236B-12FC-AACE-99879716C6AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myPortal.Authentication.Domain", "..\myPortal.Authentication.Domain\myPortal.Authentication.Domain.csproj", "{C301EAB3-AABC-45BC-A510-781DE00D7F01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myPortal.Authentication.Application", "myPortal.Authentication.Application\myPortal.Authentication.Application.csproj", "{DA1A4DF0-56B9-A760-86D2-CB5D23E0D49F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myPortal.Authentication.Application", "..\myPortal.Authentication.Application\myPortal.Authentication.Application.csproj", "{B3B31CF6-8D34-4ECD-BF89-8E3F6F3226DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myPortal.Authentication.Domain", "myPortal.Authentication.Domain\myPortal.Authentication.Domain.csproj", "{EEFA5121-6C53-46DB-3FC6-AF9ED6E69459}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myPortal.Authentication.Infrastructure", "..\myPortal.Authentication.Infrastructure\myPortal.Authentication.Infrastructure.csproj", "{D9777E8C-C757-4761-9196-69AC6779BE23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myPortal.Authentication.Infrastructure", "myPortal.Authentication.Infrastructure\myPortal.Authentication.Infrastructure.csproj", "{17359BDF-B541-2F05-02E6-3670C71CB723}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,27 +23,27 @@ Global
 		{1E6E56C2-236B-12FC-AACE-99879716C6AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E6E56C2-236B-12FC-AACE-99879716C6AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E6E56C2-236B-12FC-AACE-99879716C6AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C301EAB3-AABC-45BC-A510-781DE00D7F01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C301EAB3-AABC-45BC-A510-781DE00D7F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C301EAB3-AABC-45BC-A510-781DE00D7F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C301EAB3-AABC-45BC-A510-781DE00D7F01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3B31CF6-8D34-4ECD-BF89-8E3F6F3226DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3B31CF6-8D34-4ECD-BF89-8E3F6F3226DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3B31CF6-8D34-4ECD-BF89-8E3F6F3226DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3B31CF6-8D34-4ECD-BF89-8E3F6F3226DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9777E8C-C757-4761-9196-69AC6779BE23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9777E8C-C757-4761-9196-69AC6779BE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9777E8C-C757-4761-9196-69AC6779BE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9777E8C-C757-4761-9196-69AC6779BE23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA1A4DF0-56B9-A760-86D2-CB5D23E0D49F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA1A4DF0-56B9-A760-86D2-CB5D23E0D49F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA1A4DF0-56B9-A760-86D2-CB5D23E0D49F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA1A4DF0-56B9-A760-86D2-CB5D23E0D49F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEFA5121-6C53-46DB-3FC6-AF9ED6E69459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFA5121-6C53-46DB-3FC6-AF9ED6E69459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEFA5121-6C53-46DB-3FC6-AF9ED6E69459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEFA5121-6C53-46DB-3FC6-AF9ED6E69459}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17359BDF-B541-2F05-02E6-3670C71CB723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17359BDF-B541-2F05-02E6-3670C71CB723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17359BDF-B541-2F05-02E6-3670C71CB723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17359BDF-B541-2F05-02E6-3670C71CB723}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1E6E56C2-236B-12FC-AACE-99879716C6AF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{C301EAB3-AABC-45BC-A510-781DE00D7F01} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{B3B31CF6-8D34-4ECD-BF89-8E3F6F3226DD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{D9777E8C-C757-4761-9196-69AC6779BE23} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{DA1A4DF0-56B9-A760-86D2-CB5D23E0D49F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{EEFA5121-6C53-46DB-3FC6-AF9ED6E69459} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{17359BDF-B541-2F05-02E6-3670C71CB723} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FDBB8DB-9F0A-4A43-8BD5-51BF01AECEDA}
