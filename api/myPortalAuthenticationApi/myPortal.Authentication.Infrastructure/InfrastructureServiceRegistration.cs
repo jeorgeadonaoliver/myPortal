@@ -1,7 +1,10 @@
 ﻿using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using myPortal.Authentication.Application.Abstraction.Request;
+using myPortal.Authentication.Infrastructure.PortalDb;
 using myPortal.Authentication.Infrastructure.Request;
 
 namespace myPortal.Authentication.Infrastructure;
@@ -47,6 +50,13 @@ public static class InfrastructureServiceRegistration
         {
             Credential = GoogleCredential.FromFile("firebase.json")
         });
+        return services;
+    }
+
+    public static IServiceCollection AddPortalDbServices(this IServiceCollection services, IConfiguration config)
+    {
+        services.AddDbContext<MyPortalDbContext>(options =>
+            options.UseSqlServer(config.GetConnectionString("PortalDb")));
         return services;
     }
 }

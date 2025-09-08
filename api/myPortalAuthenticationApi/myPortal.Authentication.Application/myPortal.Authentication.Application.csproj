@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Usecase\Customer\Command\LoginCustomer\" />
+    <Compile Remove="Usecase\Customer\Command\LoginCustomer\**" />
+    <EmbeddedResource Remove="Usecase\Customer\Command\LoginCustomer\**" />
+    <None Remove="Usecase\Customer\Command\LoginCustomer\**" />
   </ItemGroup>
 
 </Project>
