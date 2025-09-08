@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Domain.PortalDb;
 
 namespace myPortal.Authentication.Infrastructure.PortalDb;
 
-public partial class MyPortalDbContext : DbContext
+public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
 {
     public MyPortalDbContext()
     {

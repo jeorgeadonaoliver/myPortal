@@ -3,6 +3,7 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Request;
 using myPortal.Authentication.Infrastructure.PortalDb;
 using myPortal.Authentication.Infrastructure.Request;
@@ -57,6 +58,9 @@ public static class InfrastructureServiceRegistration
     {
         services.AddDbContext<MyPortalDbContext>(options =>
             options.UseSqlServer(config.GetConnectionString("PortalDb")));
+
+        services.AddScoped<IMyPortalDbContext>(provider => provider.GetRequiredService<MyPortalDbContext>());
+
         return services;
     }
 }
