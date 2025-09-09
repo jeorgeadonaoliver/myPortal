@@ -58,6 +58,30 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
+    public async Task<TResult> ExecuteInTransactionAsync<TResult>(Func<IMyPortalDbContext, CancellationToken, Task<TResult>> operation, CancellationToken cancellationToken = default)
+    {
+        var strategy = _context.Database.CreateExecutionStrategy();
+
+        return await strategy.ExecuteAsync(async () =>
+        {
+            await using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+
+            try
+            {
+                var result = await operation(_context, cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return result;
+            }
+            catch
+            {
+                await transaction.RollbackAsync(cancellationToken);
+                throw;
+            }
+        });
+    }
+
     public async ValueTask DisposeTransactionAsync()
     {
         if(_transaction != null)
@@ -82,30 +106,6 @@ public class UnitOfWork : IUnitOfWork
     {
         await DisposeTransactionAsync();
         await _context.DisposeAsync();
-    }
-
-    public async Task<TResult> ExecuteInTransactionAsync<TResult>(Func<IMyPortalDbContext, CancellationToken, Task<TResult>> operation, CancellationToken cancellationToken = default)
-    {
-        var strategy = _context.Database.CreateExecutionStrategy();
-
-        return await strategy.ExecuteAsync(async () =>
-        {
-            await using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
-
-            try
-            {
-                var result = await operation(_context, cancellationToken);
-
-                await transaction.CommitAsync(cancellationToken);
-
-                return result;
-            }
-            catch
-            {
-                await transaction.RollbackAsync(cancellationToken);
-                throw;
-            }
-        });
     }
 
     public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
