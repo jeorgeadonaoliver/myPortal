@@ -15,14 +15,6 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
 
     public async Task<Guid> HandleAsync(RegisterCustomerCommand request, CancellationToken cancellationToken)
     {
-        var customer = new CustomerAccount {
-            Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Id = Guid.NewGuid(),
-            MiddleName = request.MiddletName
-
-        };
 
         var newCustomerId = await _context.ExecuteInTransactionAsync<Guid>(
             async (db, ct) =>
@@ -33,7 +25,8 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     Id = Guid.NewGuid(),
-                    MiddleName = request.MiddletName
+                    MiddleName = request.MiddletName,
+                    Uid = request.Uid
                 };
 
                 db.CustomerAccounts.Add(customer);

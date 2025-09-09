@@ -15,4 +15,4 @@ public partial class CustomerAccount
     public int? RoleId { get; set; }
 
     public string Uid { get; set; }
-    }
+}
