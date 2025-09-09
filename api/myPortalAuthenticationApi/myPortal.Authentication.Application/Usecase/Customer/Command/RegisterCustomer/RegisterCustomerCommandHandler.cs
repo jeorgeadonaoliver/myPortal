@@ -24,23 +24,26 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
 
         };
 
-        await _context.BeginTransactionAsync(cancellationToken);
+        var newCustomerId = await _context.ExecuteInTransactionAsync<Guid>(
+            async (db, ct) =>
+            {
+                var customer = new CustomerAccount() {
 
-        try 
-        {
+                    Email = request.Email,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Id = Guid.NewGuid(),
+                    MiddleName = request.MiddletName
+                };
 
-            await _context.Context.CustomerAccounts.AddAsync(customer, cancellationToken);
+                db.CustomerAccounts.Add(customer);
 
-            await _context.SaveChangesAsync(cancellationToken);
+                await db.SaveChangesAsync(ct);
 
-            await _context.CommitTransactionAsync(cancellationToken);
+                return customer.Id; 
+            },
+            cancellationToken);
 
-            return customer.Id;
-        }
-        catch
-        {
-            await _context.RollbackTransactionAsync(cancellationToken);
-            throw;
-        }
+        return newCustomerId;
     }
 }
