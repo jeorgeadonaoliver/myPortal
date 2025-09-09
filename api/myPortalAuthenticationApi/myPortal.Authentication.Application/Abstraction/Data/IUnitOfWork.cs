@@ -19,4 +19,8 @@ public interface IUnitOfWork: IDisposable, IAsyncDisposable
        Func<IMyPortalDbContext, CancellationToken, Task<TResult>> operation,
        CancellationToken cancellationToken = default);
 
+    ValueTask DisposeTransactionAsync();
+
+    void DisposeTransaction();
+
 }

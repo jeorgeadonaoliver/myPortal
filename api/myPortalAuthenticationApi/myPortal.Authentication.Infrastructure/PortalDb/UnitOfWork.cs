@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using myPortal.Authentication.Application.Abstraction.Data;
-using System.Threading.Tasks;
 
 namespace myPortal.Authentication.Infrastructure.PortalDb;
 
@@ -59,7 +58,7 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public async ValueTask DisposeTransaction()
+    public async ValueTask DisposeTransactionAsync()
     {
         if(_transaction != null)
         {
@@ -68,15 +67,20 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public async Task Dispose()
+    public void DisposeTransaction()
     {
-        await DisposeTransaction();
+        _transaction = null;
+    }
+
+    public void Dispose()
+    {
+        DisposeTransaction();
         _context.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
-        await DisposeTransaction();
+        await DisposeTransactionAsync();
         await _context.DisposeAsync();
     }
 
