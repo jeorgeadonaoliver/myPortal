@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace myPortal.Authentication.Domain.PortalDb;
+﻿namespace myPortal.Authentication.Domain.PortalDb;
 
 public partial class CustomerAccount
 {
-    public string? Id { get; set; }
+    public Guid Id { get; set; }
 
     public string? LastName { get; set; }
 
@@ -16,4 +13,6 @@ public partial class CustomerAccount
     public string? Email { get; set; }
 
     public int? RoleId { get; set; }
-}
+
+    public string Uid { get; set; }
+    }

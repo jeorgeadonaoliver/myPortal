@@ -6,6 +6,7 @@ namespace myPortal.Authentication.Infrastructure.PortalDb;
 
 public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
 {
+
     public MyPortalDbContext()
     {
     }
@@ -22,14 +23,15 @@ public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
         modelBuilder.Entity<CustomerAccount>(entity =>
         {
             entity
-                .HasNoKey()
-                .ToTable("CustomerAccount");
+                .HasKey(e => e.Id).HasName("PK_CustomerAccount");
+            entity.ToTable("CustomerAccount");
 
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(50);
-            entity.Property(e => e.Id).HasMaxLength(50);
+            entity.Property(e => e.Id).HasColumnType("uniqueidentifier");
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
+            entity.Property(e => e.Uid).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

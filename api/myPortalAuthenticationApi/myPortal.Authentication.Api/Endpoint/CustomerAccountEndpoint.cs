@@ -11,7 +11,9 @@ namespace myPortal.Authentication.Api.Endpoint
             { 
                     var result = await dispatcher.Send(command, cancellationToken);
                     return Results.Ok(result);
-            });
+            })
+            .WithName("Register")
+            .WithOpenApi(); ;
 
             return app;
         }

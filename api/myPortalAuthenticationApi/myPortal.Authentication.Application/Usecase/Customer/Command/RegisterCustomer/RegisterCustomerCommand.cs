@@ -10,7 +10,11 @@ public class RegisterCustomerCommand : IRequest<Guid>
 
     public string FirstName { get; set; }
 
+    public string MiddletName { get; set; }
+
     public string LastName { get; set; }
 
     public string ContactNumber { get; set; }
+
+    public string Uid { get; set; }
 }

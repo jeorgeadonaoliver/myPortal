@@ -60,6 +60,7 @@ public static class InfrastructureServiceRegistration
             options.UseSqlServer(config.GetConnectionString("PortalDb")));
 
         services.AddScoped<IMyPortalDbContext>(provider => provider.GetRequiredService<MyPortalDbContext>());
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
