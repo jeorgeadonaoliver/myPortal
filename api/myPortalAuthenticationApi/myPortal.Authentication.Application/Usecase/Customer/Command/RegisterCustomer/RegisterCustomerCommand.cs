@@ -16,5 +16,4 @@ public class RegisterCustomerCommand : IRequest<Guid>
 
     public string ContactNumber { get; set; }
 
-    public string Uid { get; set; }
 }

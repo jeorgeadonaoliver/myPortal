@@ -1,4 +1,5 @@
-﻿using myPortal.Authentication.Application.Abstraction.Data;
+﻿using FirebaseAdmin.Auth;
+using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Request;
 using myPortal.Authentication.Domain.PortalDb;
 
@@ -19,6 +20,13 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
         var newCustomerId = await _context.ExecuteInTransactionAsync<Guid>(
             async (db, ct) =>
             {
+                string uid = await RegisterCustomerAccountInFirebase(request, ct);
+
+                if (string.IsNullOrEmpty(uid))
+                {
+                    throw new Exception("Failed to create user in Firebase.");
+                }
+
                 var customer = new CustomerAccount() {
 
                     Email = request.Email,
@@ -26,7 +34,7 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
                     LastName = request.LastName,
                     Id = Guid.NewGuid(),
                     MiddleName = request.MiddletName,
-                    Uid = request.Uid
+                    Uid = uid
                 };
 
                 db.CustomerAccounts.Add(customer);
@@ -38,5 +46,27 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
             cancellationToken);
 
         return newCustomerId;
+    }
+
+    private async Task<string> RegisterCustomerAccountInFirebase(RegisterCustomerCommand command, CancellationToken cancellationToken)
+    {
+        var auth = FirebaseAuth.DefaultInstance;
+        var userArgs = new UserRecordArgs
+        {
+            Email = command.Email,
+            Password = command.Password,
+            DisplayName = $"{command.FirstName} {command.LastName}",
+        };
+
+        try 
+        {
+            UserRecord userRecord = await auth.CreateUserAsync(userArgs);
+            return userRecord.Uid;
+        }
+        catch (FirebaseAuthException ex)
+        {
+            // Log error
+            return string.Empty;
+        }
     }
 }
