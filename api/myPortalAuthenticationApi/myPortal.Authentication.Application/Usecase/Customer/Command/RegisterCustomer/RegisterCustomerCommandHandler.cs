@@ -20,28 +20,43 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
         var newCustomerId = await _context.ExecuteInTransactionAsync<Guid>(
             async (db, ct) =>
             {
-                string uid = await RegisterCustomerAccountInFirebase(request, ct);
+                string uid = string.Empty;
 
-                if (string.IsNullOrEmpty(uid))
+                try 
                 {
-                    throw new Exception("Failed to create user in Firebase.");
+                    uid = await RegisterCustomerAccountInFirebase(request, ct);
+
+                    if (string.IsNullOrEmpty(uid))
+                    {
+                        throw new Exception("Failed to create user in Firebase.");
+                    }
+
+                    var customer = new CustomerAccount()
+                    {
+
+                        Email = request.Email,
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        Id = Guid.NewGuid(),
+                        MiddleName = request.MiddletName,
+                        Uid = uid
+                    };
+
+                    db.CustomerAccounts.Add(customer);
+
+                    await db.SaveChangesAsync(ct);
+
+                    return customer.Id;
+                } 
+                catch(Exception ex) 
+                {
+                    //log error
+                    if (!string.IsNullOrEmpty(uid))
+                    {
+                        await FirebaseAuth.DefaultInstance.DeleteUserAsync(uid, ct);
+                    }
+                    throw;
                 }
-
-                var customer = new CustomerAccount() {
-
-                    Email = request.Email,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    Id = Guid.NewGuid(),
-                    MiddleName = request.MiddletName,
-                    Uid = uid
-                };
-
-                db.CustomerAccounts.Add(customer);
-
-                await db.SaveChangesAsync(ct);
-
-                return customer.Id; 
             },
             cancellationToken);
 
