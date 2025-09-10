@@ -85,6 +85,5 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
         var validator = new RegisterCustomerCommandValidation(_context.Context);
 
         await _validationHelper.ValidateAsync(cmd, validator, cancellationToken);
-      
     }
 }
