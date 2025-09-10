@@ -1,5 +1,6 @@
 ﻿using FirebaseAdmin.Auth;
 using myPortal.Authentication.Application.Abstraction.Data;
+using myPortal.Authentication.Application.Abstraction.Helper;
 using myPortal.Authentication.Application.Abstraction.Request;
 using myPortal.Authentication.Domain.PortalDb;
 
@@ -8,20 +9,18 @@ namespace myPortal.Authentication.Application.Usecase.Customer.Command.RegisterC
 public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCommand, Guid>
 {
     protected readonly IUnitOfWork _context;
+    private readonly IValidationHelper _validationHelper;
 
-    public RegisterCustomerCommandHandler(IUnitOfWork context)
+    public RegisterCustomerCommandHandler(IUnitOfWork context, IValidationHelper validationHelper)
     {
         _context = context;
+        _validationHelper = validationHelper;
     }
 
     public async Task<Guid> HandleAsync(RegisterCustomerCommand request, CancellationToken cancellationToken)
     {
-        var validator = new RegisterCustomerCommandValidation(_context.Context);
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-        if (validationResult.IsValid)
-        {
-           var newCustomerId = await _context.ExecuteInTransactionAsync<Guid>(
+        await ProcessCommandValidation(request, cancellationToken);
+        var newCustomerId = await _context.ExecuteInTransactionAsync<Guid>(
            async (db, ct) =>
            {
                string uid = string.Empty;
@@ -58,18 +57,13 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
                    {
                        await FirebaseAuth.DefaultInstance.DeleteUserAsync(uid, ct);
                    }
-                   throw;
+
+                   return Guid.Empty;
                }
            },
            cancellationToken);
 
-            return newCustomerId;
-        }
-
-        Console.WriteLine(validationResult.ToString());
-
-        return Guid.Empty;
-
+        return newCustomerId;
     }
 
     private async Task<string> RegisterCustomerAccountInFirebase(RegisterCustomerCommand command, CancellationToken cancellationToken)
@@ -84,5 +78,13 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
 
         UserRecord userRecord = await auth.CreateUserAsync(userArgs);
         return userRecord.Uid;
+    }
+
+    private async Task ProcessCommandValidation(RegisterCustomerCommand cmd, CancellationToken cancellationToken) 
+    {
+        var validator = new RegisterCustomerCommandValidation(_context.Context);
+
+        await _validationHelper.ValidateAsync(cmd, validator, cancellationToken);
+      
     }
 }

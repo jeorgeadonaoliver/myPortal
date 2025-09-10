@@ -1,5 +1,6 @@
 using myPortal.Authentication.Api.Endpoint;
 using myPortal.Authentication.Infrastructure;
+using myPortal.Authentication.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRequestService();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddPortalDbServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
