@@ -3,8 +3,10 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using myPortal.Authentication.Application.Abstraction.Authentication;
 using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Request;
+using myPortal.Authentication.Infrastructure.Authentication;
 using myPortal.Authentication.Infrastructure.PortalDb;
 using myPortal.Authentication.Infrastructure.Request;
 
@@ -61,6 +63,15 @@ public static class InfrastructureServiceRegistration
 
         services.AddScoped<IMyPortalDbContext>(provider => provider.GetRequiredService<MyPortalDbContext>());
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddSingleton<IAuthenticationService, AuthenticationService>();
+
+        services.AddHttpClient<IJwtService, JwtService>((sp, client) =>
+        {
+            var configuration = sp.GetRequiredService<IConfiguration>();
+
+            client.BaseAddress = new Uri(uriString: configuration["Authentication:TokenUri"]);
+        });
 
         return services;
     }

@@ -23,7 +23,7 @@ export default function MainLayout() {
             <Sidebar sidebarItems={sidebarItems}></Sidebar>
         </aside>
         <div className=" min-h-screen w-full rounded-l-4xl overflow-x-hidden">
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-6 ml-8">
             <Outlet /> 
           </main>
         </div>

@@ -4,9 +4,13 @@ import Footerbar from "../components/footer/footerbar";
 export default function AuthLayout() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-(--background)">
-        <Outlet />
-        <footer className="mt-40 w-full">
+      <div className="flex flex-col min-h-screen bg-(--background)">
+        <main className="flex flex-grow items-center justify-center">
+          <div className="w-full sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto">
+            <Outlet />
+          </div>
+        </main>
+        <footer className=" w-full">
           <Footerbar />
         </footer>
       </div>

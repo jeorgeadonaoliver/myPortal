@@ -18,6 +18,8 @@ public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
 
     public virtual DbSet<CustomerAccount> CustomerAccounts { get; set; }
 
+    public virtual DbSet<CustomerLoginActivity> CustomerLoginActivities { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CustomerAccount>(entity =>
@@ -32,6 +34,21 @@ public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.Uid).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<CustomerLoginActivity>(entity =>
+        {
+            entity.HasKey(e => e.ActivityId);
+
+            entity.ToTable("CustomerLoginActivity");
+
+            entity.Property(e => e.ActivityId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.DeviceInfo).HasMaxLength(100);
+            entity.Property(e => e.IpAddress).HasMaxLength(45);
+            entity.Property(e => e.LoginMethod).HasMaxLength(50);
+            entity.Property(e => e.LoginTimestamp)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())");
         });
 
         OnModelCreatingPartial(modelBuilder);
