@@ -1,27 +1,37 @@
-import Card from "../../../shared/components/card/card";
-import CardBody from "../../../shared/components/card/cardbody";
-import CardDescription from "../../../shared/components/card/carddescription";
-import CardHeader from "../../../shared/components/card/cardheader";
-import CardTitle from "../../../shared/components/card/cardtitle";
-import loginImage from "../../../assets/login-image.png"; 
-import LoginForm from "../components/loginForm";
+//import { useState } from "react";
 
-export default function LoginPage() {
+export default function LoginForm()
+{
+    // const { login, user } = useAuth();
+    // const navigate = useNavigate();
 
-    return (
-    <div className="flex overflow-hidden mx-auto max-w-sm lg:max-w-4xl w-full">
-      <Card 
-      image={<img src={loginImage} alt="Login" className="w-full h-full object-cover rounded-l-4xl" />}
-      >
-        <CardHeader>
-          <div className="flex flex-col gap-2">
-            <CardTitle title="Login to your account" />
-            <CardDescription description="Please enter your credentials to login." />
-          </div>
-        </CardHeader>
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    //const [error, setError] = useState<string | null>(null);
+    //const [loading, setLoading] = useState(false);
 
-        <CardBody>
-          {/* <form className="mt-6 space-y-4">
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        //setError(null);
+        //setLoading(true);
+
+        // try {
+        // await login(email, password);
+        //     navigate("/home/dashboard"); // redirect after success
+        // } 
+        // catch (err: any) {
+        //     setError(err.message);
+        // } 
+        // finally 
+        // {
+        //     setLoading(false);
+        // }
+    };
+
+    return(
+         <form 
+         onSubmit={handleSubmit}
+         className="mt-6 space-y-4">
             <div className="mb-4">
               <label className="block text-gray-300 font-semibold mb-3" htmlFor="email">
                 Email:
@@ -49,12 +59,6 @@ export default function LoginPage() {
               className="w-full bg-(--primary) text-white font-semibold py-2 px-4 rounded-2xl hover:bg-(--destructive) focus:outline-none focus:ring-2 focus:ring-(--primary-focus)" 
                 type="submit">Login</button>
             </div>
-          </form> */}
-
-            <LoginForm />
-        </CardBody>
-      </Card>
-</div>
-
-    );
-}
+          </form>
+    )  
+};
