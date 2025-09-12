@@ -56,9 +56,9 @@ export default function Sidebar({sidebarItems}: {sidebarItems: SidebarProps[]}) 
             </div>
                 
                 {sidebarItems.map((item) => (
-                    <div className="mt-2">
+                    <div key={item.route} className="mt-2">
                         <SidebarIcon
-                            key={item.text}
+                            key={item.route}
                             icon={item.icon}
                             text={item.text}
                             isActive={activeIndex === item.index}

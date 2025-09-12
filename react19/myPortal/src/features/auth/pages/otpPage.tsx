@@ -1,9 +1,9 @@
-import Card from "../../shared/components/card/card";
-import loginImage from "../../assets/login-image.png"; 
-import CardHeader from "../../shared/components/card/cardheader";
-import CardTitle from "../../shared/components/card/cardtitle";
-import CardDescription from "../../shared/components/card/carddescription";
-import CardBody from "../../shared/components/card/cardbody";
+import Card from "../../../shared/components/card/card";
+import loginImage from "../../../assets/login-image.png"; 
+import CardHeader from "../../../shared/components/card/cardheader";
+import CardTitle from "../../../shared/components/card/cardtitle";
+import CardDescription from "../../../shared/components/card/carddescription";
+import CardBody from "../../../shared/components/card/cardbody";
 
 export default function OtpPage() {
     

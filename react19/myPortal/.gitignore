@@ -36,3 +36,6 @@ coverage
 # Miscellaneous
 *.tgz
 .pnp.*
+
+# Firebase config
+src/shared/firebase/firebaseConfig.ts

@@ -1,9 +1,9 @@
-import Card from "../../shared/components/card/card";
-import CardBody from "../../shared/components/card/cardbody";
-import CardDescription from "../../shared/components/card/carddescription";
-import CardHeader from "../../shared/components/card/cardheader";
-import CardTitle from "../../shared/components/card/cardtitle";
-import loginImage from "../../assets/login-image.png"; 
+import Card from "../../../shared/components/card/card";
+import CardBody from "../../../shared/components/card/cardbody";
+import CardDescription from "../../../shared/components/card/carddescription";
+import CardHeader from "../../../shared/components/card/cardheader";
+import CardTitle from "../../../shared/components/card/cardtitle";
+import loginImage from "../../../assets/login-image.png"; 
 
 export default function LoginPage() {
     return (

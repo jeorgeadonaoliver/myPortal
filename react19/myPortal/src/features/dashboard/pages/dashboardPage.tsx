@@ -1,12 +1,12 @@
-import Card from "../shared/components/card/card";
-import CardBody from "../shared/components/card/cardbody";
-import CardDescription from "../shared/components/card/carddescription";
-import CardHeader from "../shared/components/card/cardheader";
-import CardTitle from "../shared/components/card/cardtitle";
-import dollar from "../../src/assets/dollar.jpg"; 
-import trade from "../../src/assets/trade.jpg"; 
+import Card from "../../../shared/components/card/card";
+import CardBody from "../../../shared/components/card/cardbody";
+import CardDescription from "../../../shared/components/card/carddescription";
+import CardHeader from "../../../shared/components/card/cardheader";
+import CardTitle from "../../../shared/components/card/cardtitle";
+import dollar from "../../../assets/dollar.jpg"; 
+import trade from "../../../assets/trade.jpg"; 
 
-export default function Dashboard(){
+export default function DashboardPage(){
     return (
         <div>
         <div className="grid grid-cols-4 grid-rows-3 gap-4 h-full w-full">

@@ -13,11 +13,10 @@ internal sealed class JwtService : IJwtService
         _httpClient = httpClient;
     }
 
-    public async Task<string> GenerateTokenAsync(string email, string password, CancellationToken cancellationToken)
+    public async Task<string> GenerateTokenAsync(string token, CancellationToken cancellationToken)
     {
         var request = new { 
-            email,
-            password,
+            token,
             returnSecureToken = true
         };
 

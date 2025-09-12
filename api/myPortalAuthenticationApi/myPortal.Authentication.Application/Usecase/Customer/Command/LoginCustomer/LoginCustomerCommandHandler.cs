@@ -14,6 +14,6 @@ internal sealed class LoginCustomerCommandHandler : IRequestHandler<LoginCustome
 
     public async Task<string> HandleAsync(LoginCustomerCommand request, CancellationToken cancellationToken)
     {
-        return await _jwtService.GenerateTokenAsync(request.Email, request.Password, cancellationToken);
+        return await _jwtService.GenerateTokenAsync(request.token, cancellationToken);
     }
 }
