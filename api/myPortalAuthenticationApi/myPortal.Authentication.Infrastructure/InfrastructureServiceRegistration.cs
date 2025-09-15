@@ -1,8 +1,10 @@
 ﻿using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using myPortal.Authentication.Application.Abstraction.Authentication;
 using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Request;
@@ -78,7 +80,9 @@ public static class InfrastructureServiceRegistration
 
     public static IServiceCollection AddFirebaseServices(this IServiceCollection services, IConfiguration config)
     {
-        .services
+        var firebaseProjectId = config["Firebase:ProjectId"];
+
+        services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -94,5 +98,6 @@ public static class InfrastructureServiceRegistration
             });
 
         return services;
+    
     }
 }

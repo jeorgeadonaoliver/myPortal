@@ -11,6 +11,7 @@ builder.Services.AddRequestService();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddPortalDbServices(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.AddFirebaseServices(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

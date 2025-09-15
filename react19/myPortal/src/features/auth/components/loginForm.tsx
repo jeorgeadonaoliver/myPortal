@@ -24,20 +24,15 @@ export default function LoginForm()
         setDisabled(true);
 
          try {
-          const token = await login(email, password);
-          console.log("Login successful", token);
-             navigate("/otp"); // redirect after success
+          await login(email, password);
+          navigate("/otp"); // redirect after success
+
          } 
          catch (err) {
-             console.error("Login failed:", err);
-            // setError(err.message || "Login failed");
-            setClicked(false);
-            setDisabled(false);
+              console.error("Login failed:", err);
+              setClicked(false);
+              setDisabled(false);
          } 
-        // finally 
-        // {
-        //     setLoading(false);
-        // }
 
         console.log("Login attempted with:", { email, password });
     };
