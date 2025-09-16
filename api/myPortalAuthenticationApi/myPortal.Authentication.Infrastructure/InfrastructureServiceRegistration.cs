@@ -1,4 +1,6 @@
-﻿using FirebaseAdmin;
+﻿using Firebase.Auth.Requests;
+using FirebaseAdmin;
+using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +57,7 @@ public static class InfrastructureServiceRegistration
         {
             Credential = GoogleCredential.FromFile("firebase.json")
         });
+
         return services;
     }
 

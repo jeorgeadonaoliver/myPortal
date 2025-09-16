@@ -5,20 +5,8 @@ import CardTitle from "../../../shared/components/card/cardtitle";
 import CardDescription from "../../../shared/components/card/carddescription";
 import CardBody from "../../../shared/components/card/cardbody";
 import OtpForm from "../components/otpForm";
-// import { useEffect } from "react";
-// import { useLocation, useNavigate } from "react-router-dom";
 
 export default function OtpPage() {
-    //const location = useLocation();
-    //const user = location.state?.user;
-    //const navigate = useNavigate();
-
-  //    useEffect(() => {
-  //   if (!user) {
-  //     // Redirect if resolver is missing
-  //     navigate("/login");
-  //   }
-  // }, [user, navigate]);
     
     return (
         <div className="flex overflow-hidden mx-auto max-w-sm lg:max-w-4xl w-full">

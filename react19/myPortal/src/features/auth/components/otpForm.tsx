@@ -1,18 +1,37 @@
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { multiFactor } from "firebase/auth";
 //import { useAuth } from "../hooks/useAuth";
 
 export default function OtpForm()
 {
     const [otp, setOtp] = useState("");
-    //const { user } = useAuth();
+    const { user } = useAuth();
+
+    useEffect(() => {
+         const getMfaSession = async () => {
+         
+        if (user) {
+            try {
+                const mfaSession = await multiFactor(user).getSession();
+                console.log("MFA Session:", mfaSession);
+                // You can store this session in state or context if needed
+            } catch (error) 
+            {
+                console.error("Failed to get MFA session:", error);
+            }
+        }
+    };
+        getMfaSession();
+    }
+        , [user]);
+
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-       
-        console.log("OTP submitted:", otp);
 
-        //console.log("user data:", user); // Replace with actual user data if available
+        console.log("OTP submitted:", otp);
     }
 
     return(
@@ -21,7 +40,7 @@ export default function OtpForm()
             onSubmit={handleSubmit}
             className="mt-6 space-y-4">
             <div className="mb-4">
-                <label className="block text-gray-300 font-semibold mb-3" htmlFor="email">
+                <label className="block text-gray-300 font-semibold mb-3" htmlFor="otp">
                     This OTP is valid for 2 minutes. Please do not share this code with anyone.
                 </label>
               <input

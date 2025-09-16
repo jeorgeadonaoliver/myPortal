@@ -72,9 +72,9 @@ export default function LoginForm()
             <div className="mb-4">
               <button
                 className={`w-full bg-(--primary) text-white font-semibold py-2 px-4 rounded-2xl hover:bg-(--destructive) focus:outline-none focus:ring-2 focus:ring-(--primary-focus)
-                   ${clicked ? 'pointer-events-none opacity-70' : ''}`} 
-                type="submit"
-                disabled={clicked}
+                  ${clicked ? 'pointer-events-none opacity-70' : ''}`} 
+                  type="submit"
+                  disabled={clicked}
                 >
                   {clicked ? 'Logging in...' : 'Login'}
                 </button>
