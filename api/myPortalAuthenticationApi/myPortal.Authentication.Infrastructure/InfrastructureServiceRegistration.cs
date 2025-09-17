@@ -1,8 +1,5 @@
-﻿using Firebase.Auth.Requests;
-using FirebaseAdmin;
-using FirebaseAdmin.Auth;
+﻿using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,8 +65,7 @@ public static class InfrastructureServiceRegistration
 
         services.AddScoped<IMyPortalDbContext>(provider => provider.GetRequiredService<MyPortalDbContext>());
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        services.AddSingleton<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IMfaService, MfaService>();
 
         services.AddHttpClient<IJwtService, JwtService>((sp, client) =>
         {
@@ -101,6 +97,5 @@ public static class InfrastructureServiceRegistration
             });
 
         return services;
-    
     }
 }

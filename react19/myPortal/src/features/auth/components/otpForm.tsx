@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { verifyOTP, type AuthType } from "../services/authService";
 import { multiFactor } from "firebase/auth";
-//import { useAuth } from "../hooks/useAuth";
 
 export default function OtpForm()
 {
@@ -23,14 +23,17 @@ export default function OtpForm()
         }
     };
         getMfaSession();
-    }
-        , [user]);
-
-
+    }, [user]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const authType : AuthType = {
+            uid: user?.uid || "",
+            otp: otp
+        };
+        
+        await verifyOTP(authType);
         console.log("OTP submitted:", otp);
     }
 

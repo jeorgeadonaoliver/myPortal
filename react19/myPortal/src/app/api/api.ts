@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 
 const api = axios.create({
   baseURL: "https://localhost:7078/",
-  timeout: 5000,
+  timeout: 30000,
 });
 
 api.interceptors.request.use(async (config) => {

@@ -10,11 +10,13 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
 {
     protected readonly IUnitOfWork _context;
     private readonly IValidationHelper _validationHelper;
+    private readonly IRandomKeyHelper _randomKeyHelper;
 
-    public RegisterCustomerCommandHandler(IUnitOfWork context, IValidationHelper validationHelper)
+    public RegisterCustomerCommandHandler(IUnitOfWork context, IValidationHelper validationHelper, IRandomKeyHelper randomKeyHelper)
     {
         _context = context;
         _validationHelper = validationHelper;
+        _randomKeyHelper = randomKeyHelper;
     }
 
     public async Task<Guid> HandleAsync(RegisterCustomerCommand request, CancellationToken cancellationToken)
@@ -41,7 +43,10 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
                        LastName = request.LastName,
                        Id = Guid.NewGuid(),
                        MiddleName = request.MiddletName,
-                       Uid = uid
+                       RoleId = 1,
+                       Uid = uid,
+                       SecretKey = _randomKeyHelper.GenerateSecret(),
+                       CreatedAt = DateTime.UtcNow,
                    };
 
                    db.CustomerAccounts.Add(customer);

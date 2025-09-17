@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./authContext";
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from "firebase/auth";
 import { auth } from "../../shared/firebase/firebaseConfig";
+import { toast } from "react-toastify";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -26,6 +27,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = async () => {
     await signOut(auth);
     setUser(null);
+    toast.error("You have been logged out.");
   };
 
   return (

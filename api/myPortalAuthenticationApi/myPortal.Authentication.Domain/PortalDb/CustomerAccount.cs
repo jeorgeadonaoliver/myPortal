@@ -17,4 +17,6 @@ public partial class CustomerAccount
     public string Uid { get; set; }
 
     public string SecretKey { get; set; }
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

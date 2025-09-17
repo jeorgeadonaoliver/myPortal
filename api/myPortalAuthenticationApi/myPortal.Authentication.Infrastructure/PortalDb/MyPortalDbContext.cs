@@ -35,6 +35,7 @@ public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.Uid).HasMaxLength(50);
             entity.Property(e => e.SecretKey).HasMaxLength(100);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysdatetime())");
         });
 
         modelBuilder.Entity<CustomerLoginActivity>(entity =>

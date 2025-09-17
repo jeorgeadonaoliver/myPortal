@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { getOTP } from "../services/authService";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { toast } from "react-toastify";
 
 export default function LoginForm()
 {
@@ -27,34 +27,25 @@ export default function LoginForm()
 
         try 
         {
-          await login(email, password);
+          const result = await login(email, password);
+          console.log("Login successful:", result);
+          
+          const auth = getAuth(); 
 
-          const auth = getAuth();
-          const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          onAuthStateChanged(auth, async (user) => {
           if (user) 
           {
-              console.log("User after login:", user);
-              try
-              {
-                  const otp = await getOTP();
-                  console.log("Received OTP:", otp);
-                  navigate("/otp"); // redirect after success
-              } 
-              catch (error) 
-              {
-                console.error("Failed to get OTP:", error);
-              }
-              finally
-              {
-                unsubscribe();
-              }
-            }
-          });
+            console.log("User after login:", user);
+            navigate("/otp"); // redirect after success
+          }
+          }); 
+             
         } 
          catch (err) {
-              console.error("Login failed:", err);
-              setClicked(false);
-              setDisabled(false);
+            toast.error("Login failed. Please check your credentials and try again.");
+            console.error("Login error:", err);
+            setClicked(false);
+            setDisabled(false);
          } 
 
         console.log("Login attempted with:", { email, password });

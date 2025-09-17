@@ -1,5 +1,5 @@
 ﻿using myPortal.Authentication.Application.Abstraction.Request;
-using myPortal.Authentication.Application.Usecase.Customer.Command.LoginCustomer;
+using myPortal.Authentication.Application.Usecase.Authentication.Command.VerifyOtp;
 using myPortal.Authentication.Application.Usecase.Customer.Command.RegisterCustomer;
 
 namespace myPortal.Authentication.Api.Endpoint;
@@ -14,21 +14,17 @@ public static class CustomerAccountEndpoint
                 return Results.Ok(result);
         })
         .WithName("Register")
+        .RequireAuthorization()
         .WithOpenApi();
 
-        app.MapPost("/auth/login", async (LoginCustomerCommand command, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+        app.MapPost("/auth/otp", (HttpContext httpContext, VerifyOtpCommand command, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
-            var result = await dispatcher.Send(command, cancellationToken);
-            return Results.Ok(result);
-        })
-        .WithName("Login")
-        .WithOpenApi();
+            var uid = httpContext.User.FindFirst("user_id")?.Value; // Firebase stores UID here
+            if (uid == null) return Results.Unauthorized();
 
-        app.MapGet("/auth/otp", (HttpContext httpContext, CancellationToken cancellationToken) =>
-        {
+            var response = dispatcher.Send(command with { uid = uid }, cancellationToken);
 
-                var uid = httpContext.User.FindFirst("user_id")?.Value; // Firebase stores UID here
-            return Results.Ok(new { Message = "hello world!", FirebaseUid = uid });
+            return Results.Ok(new { Message = "Success", Response = response });
         })
         .RequireAuthorization()
         .WithOpenApi();

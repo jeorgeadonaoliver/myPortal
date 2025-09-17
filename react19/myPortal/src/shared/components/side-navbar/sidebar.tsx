@@ -6,6 +6,7 @@ import { BiLogOut } from "react-icons/bi";
 import { TbBellRinging2Filled } from "react-icons/tb";
 import apexLogo from "../../../assets/icon2.png";
 import SidebarLogo from "./sidebarlogo";
+import { useAuth } from "../../../features/auth/hooks/useAuth";
 
 type SidebarProps = {
     icon: React.ReactNode;
@@ -18,7 +19,7 @@ type SidebarProps = {
 export default function Sidebar({sidebarItems}: {sidebarItems: SidebarProps[]}) {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const sidebarRef = useRef<HTMLDivElement>(null);
-
+    const { logout } = useAuth();
     const navigate = useNavigate();
 
     const navigateToPage = useCallback((page: string) => {
@@ -31,6 +32,16 @@ export default function Sidebar({sidebarItems}: {sidebarItems: SidebarProps[]}) 
             navigateToPage(route);
         }
     }, [navigateToPage, setActiveIndex]);
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigateToPage('/login');
+        }
+        catch (error) {
+            console.error("Logout failed:", error);
+        }
+    }
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -85,9 +96,7 @@ export default function Sidebar({sidebarItems}: {sidebarItems: SidebarProps[]}) 
                         icon={<BiLogOut size="25" />}
                         text={"Logout"}
                         isActive={activeIndex === 0}
-                        onClick={() => {
-                            navigateToPage('/login');
-                        }}
+                        onClick={handleLogout}
                     />
                 </div>
         </div>

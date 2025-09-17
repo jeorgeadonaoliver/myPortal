@@ -7,5 +7,7 @@ public interface IMyPortalDbContext
 {
     DbSet<CustomerAccount> CustomerAccounts { get; }
 
+    DbSet<CustomerLoginActivity> CustomerLoginActivities { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

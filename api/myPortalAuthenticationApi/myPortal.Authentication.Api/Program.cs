@@ -19,7 +19,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
 
 
-
 builder.Services.AddCors(option => {
     option.AddPolicy("AllowAll", builder =>
     {
