@@ -24,6 +24,15 @@ public static class CustomerAccountEndpoint
         .WithName("Login")
         .WithOpenApi();
 
+        app.MapGet("/auth/otp", (HttpContext httpContext, CancellationToken cancellationToken) =>
+        {
+
+                var uid = httpContext.User.FindFirst("user_id")?.Value; // Firebase stores UID here
+            return Results.Ok(new { Message = "hello world!", FirebaseUid = uid });
+        })
+        .RequireAuthorization()
+        .WithOpenApi();
+
         return app;
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace myPortal.Authentication.Application.Usecase.Authentication.Command
 {
-    internal class VerifyUserCommand
+    public record VerifyUserCommand
     {
     }
 }

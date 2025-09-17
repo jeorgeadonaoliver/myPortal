@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { getOTP } from "../services/authService";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function LoginForm()
 {
@@ -23,11 +25,32 @@ export default function LoginForm()
         setClicked(true);
         setDisabled(true);
 
-         try {
+        try 
+        {
           await login(email, password);
-          navigate("/otp"); // redirect after success
 
-         } 
+          const auth = getAuth();
+          const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          if (user) 
+          {
+              console.log("User after login:", user);
+              try
+              {
+                  const otp = await getOTP();
+                  console.log("Received OTP:", otp);
+                  navigate("/otp"); // redirect after success
+              } 
+              catch (error) 
+              {
+                console.error("Failed to get OTP:", error);
+              }
+              finally
+              {
+                unsubscribe();
+              }
+            }
+          });
+        } 
          catch (err) {
               console.error("Login failed:", err);
               setClicked(false);

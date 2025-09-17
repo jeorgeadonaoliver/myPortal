@@ -86,8 +86,8 @@ public static class InfrastructureServiceRegistration
         var firebaseProjectId = config["Firebase:ProjectId"];
 
         services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+            .AddAuthentication("Bearer")
+            .AddJwtBearer("Bearer",options =>
             {
                 options.Authority = $"https://securetoken.google.com/{firebaseProjectId}";
                 options.TokenValidationParameters = new TokenValidationParameters
