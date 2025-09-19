@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { verifyOTP, type AuthType } from "../services/authService";
 import { multiFactor } from "firebase/auth";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function OtpForm()
 {
     const [otp, setOtp] = useState("");
     const { user } = useAuth();
+    const navigate = useNavigate();
+    const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
          const getMfaSession = async () => {
@@ -27,14 +31,26 @@ export default function OtpForm()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setClicked(true);
 
         const authType : AuthType = {
             uid: user?.uid || "",
             otp: otp
         };
         
-        await verifyOTP(authType);
-        console.log("OTP submitted:", otp);
+        const response = await verifyOTP(authType);
+        if(response.success.result === true){
+            navigate("/home/dashboard");
+            toast.success("OTP verified successfully!");
+            console.log("OTP verified successfully:", response);
+        }
+        else
+        {
+            toast.error("Failed to verify OTP. Please try again.");
+            console.log("OTP verified error:", response);
+            navigate("/login");
+            setClicked(false);
+        }
     }
 
     return(
@@ -57,7 +73,10 @@ export default function OtpForm()
             <div className="mb-4">
               <button
               className="w-full bg-(--primary) text-white font-semibold py-2 px-4 rounded-2xl hover:bg-(--destructive) focus:outline-none focus:ring-2 focus:ring-(--primary-focus)" 
-                type="submit">Send OTP Code</button>
+                type="submit"
+                disabled={clicked}>
+                { clicked ? 'Verifying...' : 'Send OTP Code'}
+                </button>
             </div>
           </form>
         </>

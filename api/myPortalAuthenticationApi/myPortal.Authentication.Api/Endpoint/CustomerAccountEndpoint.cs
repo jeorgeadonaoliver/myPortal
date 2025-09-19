@@ -24,7 +24,7 @@ public static class CustomerAccountEndpoint
 
             var response = dispatcher.Send(command with { uid = uid }, cancellationToken);
 
-            return Results.Ok(new { Message = "Success", Response = response });
+            return Results.Ok(new { Success = response });
         })
         .RequireAuthorization()
         .WithOpenApi();

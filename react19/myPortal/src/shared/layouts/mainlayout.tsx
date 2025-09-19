@@ -8,15 +8,12 @@ export default function MainLayout() {
     const sidebarItems = [
           { icon: <BsFillGridFill size="25" />, text: "Dash", index: 1, route: '/employees'},
           { icon: <BsPeopleFill size="25" />, text: "Group", index: 2, route:'/projects' },
-          // { icon: <BiUser size="25" />, text: "Users", index: 2, route:'/projects' },
           { icon: <BsCCircleFill size="25" />, text: "Custody", index: 3, route: '/teams'},
           { icon: <BiFile  size="25" />, text: "Reports", index: 4, route: '/departments'},
           { icon: <BiSolidBarChartAlt2 size="25" />, text: "Analytics", index: 5, route: '/analytics'},
           { icon: <BiSolidHand   size="25" />, text: "Support", index: 6, route: '/support'},
           { icon: <BiLogoGmail    size="25" />, text: "Tools", index: 7, route: '/tools'},]
           
-
- 
     return (
         <div className="min-h-screen flex bg-(--background)">
         <aside className="w-20 p-4">

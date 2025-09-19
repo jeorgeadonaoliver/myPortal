@@ -10,13 +10,13 @@ export const routes = [
         element: <AuthLayout />,
         children: [
             { path: "login", element: <LoginPage /> },
-            { path: "otp", element: <OtpPage /> },
+            { path: "otp", element: <OtpPage />, protected: true, },
         ],
     }, 
     {
         path: "/home",
         element: <MainLayout />,
-        //protected: true, 
+        protected: true, 
         children: [
             {path: "dashboard", element: <DashboardPage />},
         ],

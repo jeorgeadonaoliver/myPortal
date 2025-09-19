@@ -114,14 +114,6 @@ export default function DashboardPage(){
                     </CardHeader>
                 </Card>
             </div>
-            
-
-            {/* Example grid items
-            {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="bg-[--card] border border-neutral-300 rounded-xl p-4 text-center">
-                Item {i + 1}
-            </div>
-            ))} */}
         </div>
         </div>
     );
