@@ -6,7 +6,6 @@ import { ProtectedRoute } from "./ProtectedRoutes";
 const mapRoutes = (routeList: AppRoute[]): RouteObject[] =>
   routeList.map((r) => {
     if (r.index) {
-      // Index route: no path allowed
       return {
         index: true,
         element: r.protected

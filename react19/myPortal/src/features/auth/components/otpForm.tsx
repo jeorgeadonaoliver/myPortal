@@ -4,11 +4,13 @@ import { verifyOTP, type AuthType } from "../services/authService";
 import { multiFactor } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useLoading } from "../../../shared/hooks/useLoading";
 
 export default function OtpForm()
 {
     const [otp, setOtp] = useState("");
-    const { user } = useAuth();
+    const { user, validOtp } = useAuth();
+    const { setIsLoading } = useLoading();
     const navigate = useNavigate();
     const [clicked, setClicked] = useState(false);
 
@@ -17,6 +19,7 @@ export default function OtpForm()
          
         if (user) {
             try {
+
                 const mfaSession = await multiFactor(user).getSession();
                 console.log("MFA Session:", mfaSession);
                 // You can store this session in state or context if needed
@@ -32,16 +35,22 @@ export default function OtpForm()
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setClicked(true);
+        setIsLoading(true);
 
         const authType : AuthType = {
             uid: user?.uid || "",
             otp: otp
         };
         
+        setIsLoading(true);
         const response = await verifyOTP(authType);
-        if(response.success.result === true){
+        
+        if(response.success.result === true)
+        {
+            await validOtp();
             navigate("/home/dashboard");
             toast.success("OTP verified successfully!");
+            setIsLoading(false);
             console.log("OTP verified successfully:", response);
         }
         else
@@ -49,8 +58,11 @@ export default function OtpForm()
             toast.error("Failed to verify OTP. Please try again.");
             console.log("OTP verified error:", response);
             navigate("/login");
+            setIsLoading(false);
             setClicked(false);
         }
+
+        setIsLoading(false);
     }
 
     return(
@@ -72,7 +84,8 @@ export default function OtpForm()
             </div>          
             <div className="mb-4">
               <button
-              className="w-full bg-(--primary) text-white font-semibold py-2 px-4 rounded-2xl hover:bg-(--destructive) focus:outline-none focus:ring-2 focus:ring-(--primary-focus)" 
+              className={`w-full bg-(--primary) text-white font-semibold py-2 px-4 rounded-2xl hover:bg-(--destructive) focus:outline-none focus:ring-2 focus:ring-(--primary-focus)
+                  ${clicked ? 'pointer-events-none opacity-70' : ''}`}  
                 type="submit"
                 disabled={clicked}>
                 { clicked ? 'Verifying...' : 'Send OTP Code'}

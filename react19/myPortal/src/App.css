@@ -33,3 +33,32 @@
    --sidebar-border: oklch(1 0 0 / 10%);
    --sidebar-ring: oklch(0.646 0.222 41.116);
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-icon-spin {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.loading-icon-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}

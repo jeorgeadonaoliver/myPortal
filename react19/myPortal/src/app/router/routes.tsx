@@ -3,6 +3,7 @@ import OtpPage from "../../features/auth/pages/otpPage";
 import DashboardPage from "../../features/dashboard/pages/dashboardPage";
 import AuthLayout from "../../shared/layouts/authlayout";
 import MainLayout from "../../shared/layouts/mainlayout";
+import ForgotPasswordPage from "../../features/auth/pages/forgotpasswordPage";
 
 export const routes = [
     {
@@ -10,7 +11,8 @@ export const routes = [
         element: <AuthLayout />,
         children: [
             { path: "login", element: <LoginPage /> },
-            { path: "otp", element: <OtpPage />, protected: true, },
+            { path: "forgotpassword", element: < ForgotPasswordPage/> },
+            { path: "otp", element: <OtpPage />, },
         ],
     }, 
     {

@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./authContext";
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from "firebase/auth";
+import { onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, type User } from "firebase/auth";
 import { auth } from "../../shared/firebase/firebaseConfig";
 import { toast } from "react-toastify";
 
@@ -10,18 +10,36 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true); 
+  const [validUser, setValidUser] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
   const login = async (email: string, password: string) => {
-    const cred = await signInWithEmailAndPassword(auth, email, password);
-    setUser(cred.user);
-    return cred.user;
+    setLoading(true);
+    try
+    {
+      const userinfo = await signInWithEmailAndPassword(auth, email, password);
+      setValidUser(true);
+      setLoading(false);
+      setUser(userinfo.user);
+
+      return true;
+    }
+    catch(error)
+    {
+      setValidUser(false);
+      toast.error("Login failed. Please check your credentials and try again.");
+      console.error("Login error:", error);
+      setLoading(false);
+      return false;
+    }
   };
 
   const logout = async () => {
@@ -30,8 +48,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     toast.error("You have been logged out.");
   };
 
+  const forgotpassword = async (email: string) => {
+      //const auth = getAuth();
+      await sendPasswordResetEmail(auth, email)
+      .then(() => {
+          console.log('Password reset email sent');
+      })
+      .catch((error)=>{
+          console.error('Error sending password reset email:', error);
+      });
+  }
+
+  const validOtp = () => {
+    setValidUser(true);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, forgotpassword, validOtp, validUser }}>
       {children}
     </AuthContext.Provider>
   );

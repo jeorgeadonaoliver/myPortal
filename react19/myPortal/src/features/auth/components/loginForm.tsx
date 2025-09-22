@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { toast } from "react-toastify";
+import { useLoading } from "../../../shared/hooks/useLoading";
 
 export default function LoginForm()
 {
     const { login } = useAuth();
+    const { setIsLoading } = useLoading();
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -15,13 +16,10 @@ export default function LoginForm()
     const [clicked, setClicked] = useState(false);
 
     //const [error, setError] = useState<string | null>(null);
-    //const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        //setError(null);
-        //setLoading(true);
-
+        setIsLoading(true);
         setClicked(true);
         setDisabled(true);
 
@@ -29,16 +27,10 @@ export default function LoginForm()
         {
           const result = await login(email, password);
           console.log("Login successful:", result);
-          
-          const auth = getAuth(); 
-
-          onAuthStateChanged(auth, async (user) => {
-          if (user) 
-          {
-            console.log("User after login:", user);
-            navigate("/otp"); // redirect after success
-          }
-          }); 
+           
+          if(result)
+          navigate("/otp"); // redirect after success
+          setIsLoading(false);
              
         } 
          catch (err) {
@@ -46,12 +38,14 @@ export default function LoginForm()
             console.error("Login error:", err);
             setClicked(false);
             setDisabled(false);
+            setIsLoading(false);
          } 
 
         console.log("Login attempted with:", { email, password });
     };
 
     return(
+      <>
          <form 
          onSubmit={handleSubmit}
          className="mt-6 space-y-4">
@@ -83,6 +77,11 @@ export default function LoginForm()
                 placeholder="enter password"
               />
             </div>
+            <div className="mb-4 text-right">
+                <a onClick={() => navigate("/forgotpassword")} className="text-md font-semibold text-amber-50 transition-colors duration-300 hover:text-amber-700">
+                  Forgot password?
+                </a>
+            </div>
             <div className="mb-4">
               <button
                 className={`w-full bg-(--primary) text-white font-semibold py-2 px-4 rounded-2xl hover:bg-(--destructive) focus:outline-none focus:ring-2 focus:ring-(--primary-focus)
@@ -94,5 +93,6 @@ export default function LoginForm()
                 </button>
             </div>
           </form>
+      </>
     )  
 };
