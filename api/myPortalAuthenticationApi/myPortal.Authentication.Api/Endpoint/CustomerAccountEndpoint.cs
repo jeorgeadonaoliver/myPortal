@@ -1,6 +1,7 @@
 ﻿using myPortal.Authentication.Application.Abstraction.Request;
 using myPortal.Authentication.Application.Usecase.Authentication.Command.VerifyOtp;
 using myPortal.Authentication.Application.Usecase.Customer.Command.RegisterCustomer;
+using myPortal.Authentication.Application.Usecase.Customer.Query.GetCustomer;
 
 namespace myPortal.Authentication.Api.Endpoint;
 
@@ -27,6 +28,14 @@ public static class CustomerAccountEndpoint
             return Results.Ok(new { Success = response });
         })
         .RequireAuthorization()
+        .WithOpenApi();
+
+        app.MapPost("/auth/getusers", (IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+        {
+
+            var response = dispatcher.Send(new GetCustomerQuery(), cancellationToken);
+            return Results.Ok(response.Result);
+        })
         .WithOpenApi();
 
         return app;

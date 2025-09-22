@@ -4,6 +4,7 @@ import DashboardPage from "../../features/dashboard/pages/dashboardPage";
 import AuthLayout from "../../shared/layouts/authlayout";
 import MainLayout from "../../shared/layouts/mainlayout";
 import ForgotPasswordPage from "../../features/auth/pages/forgotpasswordPage";
+import CustomerPage from "../../features/customer/pages/customerPage";
 
 export const routes = [
     {
@@ -12,7 +13,7 @@ export const routes = [
         children: [
             { path: "login", element: <LoginPage /> },
             { path: "forgotpassword", element: < ForgotPasswordPage/> },
-            { path: "otp", element: <OtpPage />, },
+            { path: "otp", protected: true, element: <OtpPage />, },
         ],
     }, 
     {
@@ -21,6 +22,7 @@ export const routes = [
         protected: true, 
         children: [
             {path: "dashboard", element: <DashboardPage />},
+            {path: "customers", element: <CustomerPage />}
         ],
     }
 ];

@@ -10,8 +10,12 @@ export const ProtectedRoute = ({children}: ProtectedRouteProps) => {
 
     const { user, validUser } = useAuth();
 
-    if (user && validUser) {
+    if (user != null && validUser != false) {
       return <>{children}</>;
+    }
+    else if(user != null && validUser == false)
+    {
+      return <Navigate to="/login" replace />;
     }
     else
     {

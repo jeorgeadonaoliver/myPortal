@@ -45,6 +45,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = async () => {
     await signOut(auth);
     setUser(null);
+    setValidUser(false);
     toast.error("You have been logged out.");
   };
 
@@ -60,6 +61,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   const validOtp = () => {
+    setValidUser(true);
     setValidUser(true);
   }
 
