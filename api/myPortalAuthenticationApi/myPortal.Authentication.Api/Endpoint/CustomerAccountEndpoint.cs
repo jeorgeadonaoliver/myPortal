@@ -22,7 +22,6 @@ public static class CustomerAccountEndpoint
         {
             var uid = httpContext.User.FindFirst("user_id")?.Value; // Firebase stores UID here
             if (uid == null) return Results.Unauthorized();
-
             var response = dispatcher.Send(command with { uid = uid }, cancellationToken);
 
             return Results.Ok(new { Success = response });
@@ -32,7 +31,6 @@ public static class CustomerAccountEndpoint
 
         app.MapPost("/auth/getusers", (IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
-
             var response = dispatcher.Send(new GetCustomerQuery(), cancellationToken);
             return Results.Ok(response.Result);
         })

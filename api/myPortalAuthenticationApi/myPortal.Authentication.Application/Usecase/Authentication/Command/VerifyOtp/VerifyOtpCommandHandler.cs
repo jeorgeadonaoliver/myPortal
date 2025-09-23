@@ -36,7 +36,7 @@ public class VerifyOtpCommandHandler : IRequestHandler<VerifyOtpCommand, bool>
                        {
                            ActivityId = Guid.NewGuid(),
                            CustomerId = data.Id,
-                           LoginTimestamp = DateTime.UtcNow,
+                           LoginTimestamp = DateTime.Now,
                            LoginMethod = "MFA_VERIFIED",
                        };
 

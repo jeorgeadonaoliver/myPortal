@@ -1,9 +1,5 @@
 import api from "../../../app/api/api";
-
-export type AuthType = {
-    uid: string;
-    otp: string;
-};
+import type { AuthType } from "../types/AuthType";
 
 
 export const verifyOTP = async({uid, otp}: AuthType) => {

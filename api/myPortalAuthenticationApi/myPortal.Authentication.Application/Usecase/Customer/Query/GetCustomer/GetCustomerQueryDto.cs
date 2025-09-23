@@ -16,6 +16,7 @@ public record GetCustomerQueryDto
 
     public string Uid { get; init; }
 
-    public DateTime CreatedAt { get; init; } 
+    public DateTime? LastLogin { get; init; }
+
 }
 

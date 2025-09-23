@@ -16,17 +16,21 @@ internal class GetCustomerCommandHandler : IRequestHandler<GetCustomerQuery, IEn
     public async Task<IEnumerable<GetCustomerQueryDto>> HandleAsync(GetCustomerQuery request, CancellationToken cancellationToken)
     {
         var customers = await _context.CustomerAccounts
+            .GroupJoin(_context.CustomerLoginActivities,
+            activity => activity.Id,
+            cust => cust.CustomerId,
+            (activity, cust) => new { activity, cust })
             .Select(x =>
-                new GetCustomerQueryDto
+                 new GetCustomerQueryDto
                 {
-                    Id = x.Id, 
-                    LastName = x.LastName,
-                    FirstName = x.FirstName,
-                    MiddleName = x.MiddleName,
-                    Email = x.Email,
-                    RoleId = x.RoleId,
-                    Uid = x.Uid,
-                    CreatedAt = x.CreatedAt
+                    Id = x.activity.Id,
+                    LastName = x.activity.LastName,
+                    FirstName = x.activity.FirstName,
+                    MiddleName = x.activity.MiddleName,
+                    Email = x.activity.Email,
+                    RoleId = x.activity.RoleId,
+                    Uid = x.activity.Uid,
+                    LastLogin = x.cust.Max(y => (DateTime)y.LoginTimestamp),
                 })
             .ToListAsync(cancellationToken);
 
