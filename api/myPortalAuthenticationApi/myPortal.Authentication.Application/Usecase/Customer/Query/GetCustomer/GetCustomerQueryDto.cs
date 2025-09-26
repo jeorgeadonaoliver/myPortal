@@ -4,6 +4,8 @@ public record GetCustomerQueryDto
 {
     public Guid Id { get; init; }
 
+    public Guid TenantId { get; init; }
+
     public string? LastName { get; init; }
 
     public string? FirstName { get; init; }

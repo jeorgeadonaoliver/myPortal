@@ -20,6 +20,8 @@ public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
 
     public virtual DbSet<CustomerLoginActivity> CustomerLoginActivities { get; set; }
 
+    public virtual DbSet<Tenant> Tenants { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CustomerAccount>(entity =>
@@ -31,6 +33,7 @@ public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.Id).HasColumnType("uniqueidentifier");
+            entity.Property(e => e.TenantId).HasColumnType("uniqueidentifier");
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.MiddleName).HasMaxLength(50);
             entity.Property(e => e.Uid).HasMaxLength(50);
@@ -45,12 +48,31 @@ public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
             entity.ToTable("CustomerLoginActivity");
 
             entity.Property(e => e.ActivityId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.TenantId).HasColumnType("uniqueidentifier");
             entity.Property(e => e.DeviceInfo).HasMaxLength(100);
             entity.Property(e => e.IpAddress).HasMaxLength(45);
             entity.Property(e => e.LoginMethod).HasMaxLength(50);
             entity.Property(e => e.LoginTimestamp)
                 .HasPrecision(3)
                 .HasDefaultValueSql("(sysdatetime())");
+        });
+
+        modelBuilder.Entity<Tenant>(entity =>
+        {
+            entity
+                .HasKey(e => e.TenantId).HasName("PK__Tenant__2E9B47811DF4BDE9");
+            entity.ToTable("Tenant");
+
+            entity.Property(e => e.TenantId).HasColumnType("uniqueidentifier");
+            entity.Property(e => e.TenantName).HasMaxLength(255);
+            entity.Property(e => e.Email).HasMaxLength(255);
+            entity.Property(e => e.PhoneNumber).HasMaxLength(20);
+            entity.Property(e => e.LeaseStartDate);
+            entity.Property(e => e.LeaseEndDate);
+            entity.Property(e => e.TenantStatus).HasMaxLength(50);
+            entity.Property(e => e.CreatedDate).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.ModifiedDate);
+
         });
 
         OnModelCreatingPartial(modelBuilder);

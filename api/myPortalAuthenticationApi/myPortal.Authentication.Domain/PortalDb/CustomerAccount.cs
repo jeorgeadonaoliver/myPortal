@@ -4,6 +4,8 @@ public partial class CustomerAccount
 {
     public Guid Id { get; set; }
 
+    public Guid TenantId { get; set; }
+
     public string? LastName { get; set; }
 
     public string? FirstName { get; set; }

@@ -31,6 +31,7 @@ internal class GetCustomerCommandHandler : IRequestHandler<GetCustomerQuery, IEn
                     RoleId = x.activity.RoleId,
                     Uid = x.activity.Uid,
                     LastLogin = x.cust.Max(y => (DateTime)y.LoginTimestamp),
+                    TenantId = x.activity.TenantId,
                 })
             .ToListAsync(cancellationToken);
 

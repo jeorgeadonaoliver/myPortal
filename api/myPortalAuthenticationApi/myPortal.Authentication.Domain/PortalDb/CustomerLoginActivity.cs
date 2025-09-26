@@ -6,6 +6,8 @@ public partial class CustomerLoginActivity
 
     public Guid CustomerId { get; set; }
 
+    public Guid TenantId { get; set; }
+
     public DateTime LoginTimestamp { get; set; }
 
     public string? LoginMethod { get; set; }
@@ -13,4 +15,5 @@ public partial class CustomerLoginActivity
     public string? IpAddress { get; set; }
 
     public string? DeviceInfo { get; set; }
+
 }
