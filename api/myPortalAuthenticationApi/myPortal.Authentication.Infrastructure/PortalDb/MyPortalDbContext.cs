@@ -59,19 +59,28 @@ public partial class MyPortalDbContext : DbContext, IMyPortalDbContext
 
         modelBuilder.Entity<Tenant>(entity =>
         {
-            entity
-                .HasKey(e => e.TenantId).HasName("PK__Tenant__2E9B47811DF4BDE9");
+            entity.HasKey(e => e.TenantId).HasName("PK__Tenant__2E9B47811DF4BDE9");
+
             entity.ToTable("Tenant");
 
-            entity.Property(e => e.TenantId).HasColumnType("uniqueidentifier");
-            entity.Property(e => e.TenantName).HasMaxLength(255);
+            entity.HasIndex(e => e.TenantName, "IX_Tenant_TenantName");
+
+            entity.HasIndex(e => e.Email, "UQ__Tenant__A9D1053465C9B6F8").IsUnique();
+
+            entity.Property(e => e.TenantId).HasDefaultValueSql("(newsequentialid())");
+            entity.Property(e => e.CreatedDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(255);
-            entity.Property(e => e.PhoneNumber).HasMaxLength(20);
-            entity.Property(e => e.LeaseStartDate);
-            entity.Property(e => e.LeaseEndDate);
-            entity.Property(e => e.TenantStatus).HasMaxLength(50);
-            entity.Property(e => e.CreatedDate).HasDefaultValueSql("(sysdatetime())");
-            entity.Property(e => e.ModifiedDate);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.TenantName).HasMaxLength(255);
+            entity.Property(e => e.TenantStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("Active");
 
         });
 

@@ -44,6 +44,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapCustomerAccountEndpoint();
+app.MapTenantEndpoint();
 
 app.Run();
 
