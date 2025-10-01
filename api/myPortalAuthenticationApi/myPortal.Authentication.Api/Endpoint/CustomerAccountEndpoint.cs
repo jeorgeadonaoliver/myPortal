@@ -29,7 +29,7 @@ public static class CustomerAccountEndpoint
         .RequireAuthorization()
         .WithOpenApi();
 
-        app.MapPost("/auth/getusers", (IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+        app.MapGet("/auth/getusers", (IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
             var response = dispatcher.Send(new GetCustomerQuery(), cancellationToken);
             return Results.Ok(response.Result);

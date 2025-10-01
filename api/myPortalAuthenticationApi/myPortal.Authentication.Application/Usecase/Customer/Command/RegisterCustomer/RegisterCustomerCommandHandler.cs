@@ -22,7 +22,7 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
     public async Task<Guid> HandleAsync(RegisterCustomerCommand request, CancellationToken cancellationToken)
     {
         await ProcessCommandValidation(request, cancellationToken);
-        var newCustomerId = await _context.ExecuteInTransactionAsync<Guid>(
+        var newCustomerId = await _context.ExecuteInTransactionAsync(
            async (db, ct) =>
            {
                string uid = string.Empty;

@@ -1,8 +1,9 @@
-﻿namespace myPortal.Authentication.Domain.PortalDb;
+﻿using myPortal.Authentication.Application.Abstraction.Request;
 
-public class Tenant
+namespace myPortal.Authentication.Application.Usecase.Tenants.Command.CreateTenant;
+
+public class CreateTenantCommand : IRequest<Guid>
 {
-    public Guid TenantId { get; set; }
 
     public string TenantName { get; set; } = null!;
 
@@ -15,8 +16,6 @@ public class Tenant
     public DateOnly? LeaseEndDate { get; set; }
 
     public string TenantStatus { get; set; } = null!;
-
-    public DateTime CreatedDate { get; set; }
 
     public DateTime? ModifiedDate { get; set; }
 }

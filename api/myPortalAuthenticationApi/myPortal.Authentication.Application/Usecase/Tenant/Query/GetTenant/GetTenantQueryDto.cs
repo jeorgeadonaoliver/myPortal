@@ -1,4 +1,4 @@
-﻿namespace myPortal.Authentication.Application.Usecase.Tenant.Query.GetTenant;
+﻿namespace myPortal.Authentication.Application.Usecase.Tenants.Query.GetTenant;
 
 public class GetTenantQueryDto
 {

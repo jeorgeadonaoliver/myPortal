@@ -1,5 +1,6 @@
 ﻿using myPortal.Authentication.Application.Abstraction.Request;
-using myPortal.Authentication.Application.Usecase.Tenant.Query.GetTenant;
+using myPortal.Authentication.Application.Usecase.Tenants.Command.CreateTenant;
+using myPortal.Authentication.Application.Usecase.Tenants.Query.GetTenant;
 
 namespace myPortal.Authentication.Api.Endpoint
 {
@@ -13,6 +14,14 @@ namespace myPortal.Authentication.Api.Endpoint
                 return Results.Ok(result);
             })
             .WithName("Tenant")
+            .WithOpenApi();
+
+            app.MapPost("/createtenant", async (CreateTenantCommand cmd ,IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+            {
+                var result = await dispatcher.Send(cmd, cancellationToken);
+                return Results.Ok(result);
+            })
+            .WithName("CreateTenant")
             .WithOpenApi();
 
             return app;
