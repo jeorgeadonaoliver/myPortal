@@ -24,23 +24,12 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, G
 
                     await ProcessCommandValidation(request, ct);
 
-                    var tenant = new Tenant()
-                    {
-                        TenantId = Guid.NewGuid(),
-                        TenantName = request.TenantName,
-                        TenantStatus = "Active",
-                        CreatedDate = DateTime.UtcNow,
-                        Email = request.Email,
-                        LeaseEndDate = request.LeaseEndDate,
-                        LeaseStartDate = request.LeaseStartDate,
-                        PhoneNumber = request.PhoneNumber
-                    };
+                    var tenant = request.ToEntities();
+                    await CreateTenant(db, tenant, ct);
 
-                    var id = db.Tenants.Add(tenant);
                     await db.SaveChangesAsync(ct);
 
                     return tenant.TenantId;
-
                 } 
                 catch 
                 {
@@ -49,6 +38,11 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, G
             }, cancellationToken);
 
         return newTenantId;
+    }
+
+    private async Task CreateTenant(IMyPortalDbContext context, Tenant tenant, CancellationToken cancellationToken) 
+    {
+        await context.Tenants.AddAsync(tenant, cancellationToken);
     }
 
     private async Task ProcessCommandValidation(CreateTenantCommand cmd, CancellationToken cancellationToken) 

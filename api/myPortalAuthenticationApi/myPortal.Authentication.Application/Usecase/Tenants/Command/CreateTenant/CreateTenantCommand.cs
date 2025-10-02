@@ -15,7 +15,7 @@ public class CreateTenantCommand : IRequest<Guid>
 
     public DateOnly? LeaseEndDate { get; set; }
 
-    public string TenantStatus { get; set; } = null!;
+    public string TenantStatus { get; set; } = "Active"!;
 
     public DateTime? ModifiedDate { get; set; }
 }
