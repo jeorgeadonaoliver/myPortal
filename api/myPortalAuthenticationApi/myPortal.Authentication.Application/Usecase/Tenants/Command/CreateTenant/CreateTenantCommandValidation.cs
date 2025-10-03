@@ -21,7 +21,7 @@ internal class CreateTenantCommandValidation : AbstractValidator<CreateTenantCom
         
     }
 
-    private async Task<bool> IsEmailUnique(string email, CancellationToken cancellationToken) 
+    private async Task<bool> IsEmailUnique(string? email, CancellationToken cancellationToken) 
     {
         var row = await _context.Tenants.Where(c => c.Email == email).FirstOrDefaultAsync();
 

@@ -1,19 +1,22 @@
 ﻿using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Helper;
 using myPortal.Authentication.Application.Abstraction.Request;
-using myPortal.Authentication.Domain.PortalDb;
+using myPortal.Authentication.Application.Abstraction.Service;
 
 namespace myPortal.Authentication.Application.Usecase.Tenants.Command.CreateTenant;
 
 public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, Guid>
 {
     protected readonly IUnitOfWork _context;
+    private readonly ITenantService _tenantService;
+
     private readonly IValidationHelper _validationHelperl;
 
-    public CreateTenantCommandHandler(IUnitOfWork context, IValidationHelper validationHelper)
+    public CreateTenantCommandHandler(IUnitOfWork context, ITenantService tenantService, IValidationHelper validationHelper)
     {
         _context = context;
         _validationHelperl = validationHelper;
+        _tenantService = tenantService;
     }
 
     public async Task<Guid> HandleAsync(CreateTenantCommand request, CancellationToken cancellationToken)
@@ -25,7 +28,7 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, G
                     await ProcessCommandValidation(request, ct);
 
                     var tenant = request.ToEntities();
-                    await CreateTenant(db, tenant, ct);
+                    await _tenantService.CreateAsync(tenant, ct);
 
                     await db.SaveChangesAsync(ct);
 
@@ -38,11 +41,6 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, G
             }, cancellationToken);
 
         return newTenantId;
-    }
-
-    private async Task CreateTenant(IMyPortalDbContext context, Tenant tenant, CancellationToken cancellationToken) 
-    {
-        await context.Tenants.AddAsync(tenant, cancellationToken);
     }
 
     private async Task ProcessCommandValidation(CreateTenantCommand cmd, CancellationToken cancellationToken) 

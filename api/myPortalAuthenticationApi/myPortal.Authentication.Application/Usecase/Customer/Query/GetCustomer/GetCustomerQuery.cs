@@ -2,4 +2,4 @@
 
 namespace myPortal.Authentication.Application.Usecase.Customer.Query.GetCustomer;
 
-public record GetCustomerQuery : IRequest<IEnumerable<GetCustomerQueryDto>>;
+public record GetCustomerQuery(Guid tenantId) : IRequest<IEnumerable<GetCustomerQueryDto>>;

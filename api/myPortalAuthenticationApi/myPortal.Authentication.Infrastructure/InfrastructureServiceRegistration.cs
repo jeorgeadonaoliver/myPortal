@@ -7,9 +7,11 @@ using Microsoft.IdentityModel.Tokens;
 using myPortal.Authentication.Application.Abstraction.Authentication;
 using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Request;
+using myPortal.Authentication.Application.Abstraction.Service;
 using myPortal.Authentication.Infrastructure.Authentication;
 using myPortal.Authentication.Infrastructure.PortalDb;
 using myPortal.Authentication.Infrastructure.Request;
+using myPortal.Authentication.Infrastructure.Service;
 
 namespace myPortal.Authentication.Infrastructure;
 
@@ -66,6 +68,8 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IMyPortalDbContext>(provider => provider.GetRequiredService<MyPortalDbContext>());
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IMfaService, MfaService>();
+        services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<ITenantService, TenantService>();
 
         services.AddHttpClient<IJwtService, JwtService>((sp, client) =>
         {

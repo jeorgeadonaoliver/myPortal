@@ -29,9 +29,9 @@ public static class CustomerAccountEndpoint
         .RequireAuthorization()
         .WithOpenApi();
 
-        app.MapGet("/auth/getusers", (IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+        app.MapGet("/auth/getusers", (Guid tenantId,IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
-            var response = dispatcher.Send(new GetCustomerQuery(), cancellationToken);
+            var response = dispatcher.Send(new GetCustomerQuery(tenantId), cancellationToken);
             return Results.Ok(response.Result);
         })
         .WithOpenApi();
