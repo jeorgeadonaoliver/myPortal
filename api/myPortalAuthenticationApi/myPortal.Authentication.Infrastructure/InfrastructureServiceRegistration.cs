@@ -9,6 +9,7 @@ using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Request;
 using myPortal.Authentication.Application.Abstraction.Service;
 using myPortal.Authentication.Infrastructure.Authentication;
+using myPortal.Authentication.Infrastructure.Cache;
 using myPortal.Authentication.Infrastructure.PortalDb;
 using myPortal.Authentication.Infrastructure.Request;
 using myPortal.Authentication.Infrastructure.Service;
@@ -70,6 +71,9 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IMfaService, MfaService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<ITenantService, TenantService>();
+
+        services.AddMemoryCache();
+        services.AddScoped<ICacheService, CacheService>();
 
         services.AddHttpClient<IJwtService, JwtService>((sp, client) =>
         {
