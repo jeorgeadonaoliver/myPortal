@@ -1,6 +1,6 @@
 ﻿namespace myPortal.Authentication.Application.Abstraction.Data
 {
-    public interface  ITenantIdCacheService
+    public interface  ICacheKeyService
     {
         string GetTenantKey(Guid tenantId);
 

@@ -24,7 +24,7 @@ namespace myPortal.Authentication.Infrastructure.Cache
         {
             var options = new MemoryCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = expiration ?? TimeSpan.FromMinutes(30)
+                AbsoluteExpirationRelativeToNow = expiration ?? TimeSpan.FromMinutes(10)
             };
             _cache.Set(key, value, options);
             return Task.CompletedTask;

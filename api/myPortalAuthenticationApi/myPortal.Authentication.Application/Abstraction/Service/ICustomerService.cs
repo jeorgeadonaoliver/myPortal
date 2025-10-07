@@ -5,4 +5,6 @@ namespace myPortal.Authentication.Application.Abstraction.Service;
 public interface ICustomerService
 {
     Task<IEnumerable<CustomerAccount>> GetAllCustomerByTenantId(Guid tenantId, CancellationToken cancellationToken);
+
+    Task<CustomerAccount> GetCustomerTenantIdByUidAsync(string uid, CancellationToken cancellationToken);
 }

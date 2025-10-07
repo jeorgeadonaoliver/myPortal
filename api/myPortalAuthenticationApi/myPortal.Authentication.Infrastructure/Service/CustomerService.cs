@@ -20,4 +20,12 @@ public class CustomerService : ICustomerService
             .Where(x => x.TenantId == tenantId).ToListAsync(cancellationToken);
 
     }
+
+    public async Task<CustomerAccount> GetCustomerTenantIdByUidAsync(string uid, CancellationToken cancellationToken)
+    {
+        return await _context.CustomerAccounts
+            .Where(x => x.Uid == uid).FirstOrDefaultAsync(cancellationToken) 
+            ?? throw new InvalidOperationException("GetCustomerTenantIdByUidAsync is null!");
+
+    }
 }
