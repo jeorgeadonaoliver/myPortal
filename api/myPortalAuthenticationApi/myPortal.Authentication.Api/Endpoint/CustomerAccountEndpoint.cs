@@ -2,6 +2,7 @@
 using myPortal.Authentication.Application.Usecase.Authentication.Command.VerifyOtp;
 using myPortal.Authentication.Application.Usecase.Customer.Command.RegisterCustomer;
 using myPortal.Authentication.Application.Usecase.Customer.Query.GetCustomer;
+using myPortal.Authentication.Application.Usecase.Customer.Query.GetCustomerTenantByUid;
 
 namespace myPortal.Authentication.Api.Endpoint;
 
@@ -32,6 +33,13 @@ public static class CustomerAccountEndpoint
         app.MapGet("/auth/getusers", (Guid tenantId,IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
             var response = dispatcher.Send(new GetCustomerQuery(tenantId), cancellationToken);
+            return Results.Ok(response.Result);
+        })
+        .WithOpenApi();
+
+        app.MapGet("/auth/getuserbyuid", (string uid, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+        {
+            var response = dispatcher.Send(new GetCustomerTenantByUidQuery(uid), cancellationToken);
             return Results.Ok(response.Result);
         })
         .WithOpenApi();

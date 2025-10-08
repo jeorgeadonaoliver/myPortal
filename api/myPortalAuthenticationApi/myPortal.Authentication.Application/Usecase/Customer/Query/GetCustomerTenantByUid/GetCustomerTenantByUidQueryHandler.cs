@@ -3,7 +3,7 @@ using myPortal.Authentication.Application.Abstraction.Service;
 
 namespace myPortal.Authentication.Application.Usecase.Customer.Query.GetCustomerTenantByUid;
 
-internal class GetCustomerTenantByUidQueryHandler : IRequestHandler<GetCustomerTenantByUidQuery, GetCustomerTenantByUidQueryDto>
+public class GetCustomerTenantByUidQueryHandler : IRequestHandler<GetCustomerTenantByUidQuery, GetCustomerTenantByUidQueryDto>
 {
     private readonly ICustomerService _custotmerService;
 

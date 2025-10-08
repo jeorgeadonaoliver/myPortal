@@ -55,7 +55,7 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
 
                    return customer.Id;
                }
-               catch (Exception ex)
+               catch
                {
                    //log error
                    if (!string.IsNullOrEmpty(uid))

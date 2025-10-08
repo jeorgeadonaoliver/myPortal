@@ -2,4 +2,4 @@
 
 namespace myPortal.Authentication.Application.Usecase.Customer.Query.GetCustomerTenantByUid;
 
-internal record GetCustomerTenantByUidQuery(string uid) : IRequest<GetCustomerTenantByUidQueryDto>;
+public record GetCustomerTenantByUidQuery(string uid) : IRequest<GetCustomerTenantByUidQueryDto>;
