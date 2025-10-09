@@ -21,7 +21,7 @@ public static class CustomerAccountEndpoint
 
         app.MapPost("/auth/otp", (HttpContext httpContext, VerifyOtpCommand command, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
-            var uid = httpContext.User.FindFirst("user_id")?.Value; // Firebase stores UID here
+            var uid = httpContext.User.FindFirst("user_id")?.Value; 
             if (uid == null) return Results.Unauthorized();
             var response = dispatcher.Send(command with { uid = uid }, cancellationToken);
 

@@ -2,5 +2,5 @@
 
 namespace myPortal.Authentication.Application.Usecase.Tenants.Query.GetTenantById
 {
-    public record GetTenantByIdQuery(Guid uid) : IRequest<GetTenantByIdDto>;    
+    public record GetTenantByIdQuery(Guid id) : IRequest<GetTenantByIdDto>;    
 }

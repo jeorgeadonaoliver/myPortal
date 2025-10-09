@@ -1,6 +1,6 @@
 ﻿namespace myPortal.Authentication.Application.Usecase.Tenants.Query.GetTenantById;
 
-internal class GetTenantByIdDto
+public class GetTenantByIdDto
 {
     public Guid TenantId { get; set; }
 
