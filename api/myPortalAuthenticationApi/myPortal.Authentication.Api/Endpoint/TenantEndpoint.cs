@@ -1,5 +1,6 @@
 ﻿using myPortal.Authentication.Application.Abstraction.Request;
 using myPortal.Authentication.Application.Usecase.Tenants.Command.CreateTenant;
+using myPortal.Authentication.Application.Usecase.Tenants.Command.UpdateTenant;
 using myPortal.Authentication.Application.Usecase.Tenants.Query.GetTenant;
 using myPortal.Authentication.Application.Usecase.Tenants.Query.GetTenantById;
 
@@ -23,6 +24,14 @@ public static class TenantEndpoint
             return Results.Ok(result);
         })
         .WithName("CreateTenant")
+        .WithOpenApi();
+
+        app.MapPost("/updateTenant", async (UpdateTenantCommand cmd, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+        {
+            var result = await dispatcher.Send(cmd, cancellationToken);
+            return Results.Ok(result);
+        })
+        .WithName("UpdateTenant")
         .WithOpenApi();
 
         app.MapGet("/gettenantbyid", async (Guid id, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>

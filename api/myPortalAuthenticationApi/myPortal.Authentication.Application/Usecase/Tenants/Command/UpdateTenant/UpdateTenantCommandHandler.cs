@@ -1,16 +1,34 @@
 ﻿using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Request;
 
-namespace myPortal.Authentication.Application.Usecase.Tenants.Command.UpdateTenant
+namespace myPortal.Authentication.Application.Usecase.Tenants.Command.UpdateTenant;
+
+public class UpdateTenantCommandHandler : IRequestHandler<UpdateTenantCommand, Guid>
 {
-    internal class UpdateTenantCommandHandler : IRequestHandler<UpdateTenantCommand, Guid>
+    protected readonly IUnitOfWork _unitOfWiork;
+
+    public UpdateTenantCommandHandler(IUnitOfWork unitOfWiork)
     {
+        _unitOfWiork = unitOfWiork;
+    }
 
-        protected readonly IUnitOfWork unitOfWiork;
+    public async Task<Guid> HandleAsync(UpdateTenantCommand request, CancellationToken cancellationToken)
+    {
+        var id = await _unitOfWiork.ExecuteInTransactionAsync(
+            async (db, ct) => {
 
-        public Task<Guid> HandleAsync(UpdateTenantCommand request, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+                try { 
+                    db.Tenants.Update(request.ToEntity());
+
+                    await db.SaveChangesAsync(ct);
+                    return request.TenantId;
+                }
+                catch 
+                {
+                    return Guid.Empty;
+                }
+            }, cancellationToken);
+
+        return id;
     }
 }

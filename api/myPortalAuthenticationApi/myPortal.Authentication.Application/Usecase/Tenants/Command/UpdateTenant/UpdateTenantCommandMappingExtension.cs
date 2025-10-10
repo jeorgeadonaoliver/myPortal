@@ -4,7 +4,7 @@ namespace myPortal.Authentication.Application.Usecase.Tenants.Command.UpdateTena
 
 internal static class UpdateTenantCommandMappingExtension
 {
-    public static Tenant ToTenant(this UpdateTenantCommand command) 
+    public static Tenant ToEntity(this UpdateTenantCommand command) 
     {
         return new Tenant 
         {
