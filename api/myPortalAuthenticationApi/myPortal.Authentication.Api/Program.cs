@@ -1,6 +1,7 @@
 using myPortal.Authentication.Api.Endpoint;
 using myPortal.Authentication.Infrastructure;
 using myPortal.Authentication.Application;
+using myPortal.Authentication.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,9 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<TenantResolutionMiddleware>();
+
+app.MapAuthEndpoint();
 app.MapCustomerAccountEndpoint();
 app.MapTenantEndpoint();
 

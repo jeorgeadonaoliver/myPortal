@@ -3,6 +3,7 @@ import { AuthContext } from "./authContext";
 import { onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, type User } from "firebase/auth";
 import { auth } from "../../shared/firebase/firebaseConfig";
 import { toast } from "react-toastify";
+import { verifyToken } from "../../features/auth/services/authService";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -26,6 +27,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try
     {
       const userinfo = await signInWithEmailAndPassword(auth, email, password);
+      const token = await userinfo.user.getIdToken();
+      localStorage.setItem("authToken", token);
+
+      const response = await verifyToken(token);
+      console.log("Token verification response:", response);
+
+      if (!response.ok) {
+        throw new Error('Token validation failed');
+      }
+
       setValidUser(true);
       setLoading(false);
       setUser(userinfo.user);

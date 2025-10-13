@@ -2,4 +2,4 @@
 
 namespace myPortal.Authentication.Application.Usecase.Authentication.Command.Login;
 
-public record LoginCommand(string token) : IRequest<string>;
+public record LoginCommand(string token) : IRequest<bool>;

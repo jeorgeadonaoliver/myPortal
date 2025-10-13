@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { verifyOTP, type AuthType } from "../services/authService";
+import { verifyOTP} from "../services/authService";
 import { multiFactor } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useLoading } from "../../../shared/hooks/useLoading";
+import type { AuthType } from "../types/AuthType";
 
 export default function OtpForm()
 {
