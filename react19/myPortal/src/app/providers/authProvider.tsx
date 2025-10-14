@@ -27,13 +27,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try
     {
       const userinfo = await signInWithEmailAndPassword(auth, email, password);
+
       const token = await userinfo.user.getIdToken();
+      const response = await verifyToken(token);
+      
       localStorage.setItem("authToken", token);
 
-      const response = await verifyToken(token);
+
       console.log("Token verification response:", response);
 
-      if (!response.ok) {
+      if (!response) {
         throw new Error('Token validation failed');
       }
 
@@ -72,7 +75,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   const validOtp = () => {
-    setValidUser(true);
     setValidUser(true);
   }
 

@@ -58,6 +58,9 @@ public static class InfrastructureServiceRegistration
             Credential = GoogleCredential.FromFile("firebase.json")
         });
 
+        services.AddScoped<ITenantContext, TenantContext>();
+
+
         return services;
     }
 

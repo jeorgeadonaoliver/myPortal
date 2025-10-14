@@ -31,7 +31,7 @@ export default function LoginForm()
           if(result)
           navigate("/otp"); // redirect after success
           setIsLoading(false);
-             
+          setClicked(false);
         } 
          catch (err) {
             toast.error("Login failed. Please check your credentials and try again.");

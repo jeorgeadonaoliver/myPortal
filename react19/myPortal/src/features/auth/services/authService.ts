@@ -7,6 +7,8 @@ export const verifyOTP = async({uid, otp}: AuthType) => {
 };
 
 export const verifyToken = async(token: string) => {
-    const response = await api.post('auth/login', token);
+
+    const response = await api.post('auth/login', {token});
+    console.log("Response from verifyToken:", response.data);
     return response.data;
 };

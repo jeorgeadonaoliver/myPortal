@@ -24,7 +24,8 @@ export default function OtpForm()
                 const mfaSession = await multiFactor(user).getSession();
                 console.log("MFA Session:", mfaSession);
                 // You can store this session in state or context if needed
-            } catch (error) 
+            } 
+            catch (error) 
             {
                 console.error("Failed to get MFA session:", error);
             }

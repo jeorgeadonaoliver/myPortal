@@ -1,5 +1,4 @@
 ﻿using myPortal.Authentication.Application.Abstraction.Request;
-using myPortal.Authentication.Application.Usecase.Authentication.Command.VerifyOtp;
 using myPortal.Authentication.Application.Usecase.Customer.Command.RegisterCustomer;
 using myPortal.Authentication.Application.Usecase.Customer.Query.GetCustomer;
 using myPortal.Authentication.Application.Usecase.Customer.Query.GetCustomerTenantByUid;
@@ -16,17 +15,6 @@ public static class CustomerAccountEndpoint
                 return Results.Ok(result);
         })
         .WithName("Register")
-        .RequireAuthorization()
-        .WithOpenApi();
-
-        app.MapPost("/auth/otp", (HttpContext httpContext, VerifyOtpCommand command, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
-        {
-            var uid = httpContext.User.FindFirst("user_id")?.Value; 
-            if (uid == null) return Results.Unauthorized();
-            var response = dispatcher.Send(command with { uid = uid }, cancellationToken);
-
-            return Results.Ok(new { Success = response });
-        })
         .RequireAuthorization()
         .WithOpenApi();
 

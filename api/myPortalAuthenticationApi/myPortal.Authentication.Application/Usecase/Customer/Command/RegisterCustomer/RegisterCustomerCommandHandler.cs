@@ -47,6 +47,7 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
                        Uid = uid,
                        SecretKey = _randomKeyHelper.GenerateSecret(),
                        CreatedAt = DateTime.UtcNow,
+                       TenantId = request.TenantId ?? Guid.Empty
                    };
 
                    db.CustomerAccounts.Add(customer);
@@ -82,6 +83,13 @@ public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCo
         };
 
         UserRecord userRecord = await auth.CreateUserAsync(userArgs);
+
+        //custom claims
+        //await auth.SetCustomUserClaimsAsync(userRecord.Uid, new Dictionary<string, object>
+        //{
+        //    { "tenantId", request.TenantId }
+        //});
+
         return userRecord.Uid;
     }
 

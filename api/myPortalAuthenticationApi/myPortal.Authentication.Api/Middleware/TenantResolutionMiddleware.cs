@@ -13,12 +13,12 @@ public class TenantResolutionMiddleware
 
     public async Task InvokeAsync(HttpContext context, ITenantContext tenantContext) 
     {
-        var tenantId = context.Request.Headers["x-tenant-ID"].FirstOrDefault();
 
-        if (!string.IsNullOrEmpty(tenantId)) 
+        if (context.Request.Headers.TryGetValue("x-tenant-id", out var tenantId) && !string.IsNullOrEmpty(tenantId))
         {
-            tenantContext.SetTenantId(tenantId);
+            tenantContext.SetTenantId(tenantid: tenantId);
         }
+
 
         await _next(context);
     }

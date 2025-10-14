@@ -16,4 +16,6 @@ public class RegisterCustomerCommand : IRequest<Guid>
 
     public string ContactNumber { get; set; }
 
+    public Guid? TenantId { get; set; }
+
 }
