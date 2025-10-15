@@ -25,7 +25,17 @@ internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, bool>
         var result = await _context.CustomerAccounts.AnyAsync(x => x.Uid == data.Uid);
 
         if (result)
+        {
+            var customClaims = new Dictionary<string, object>
+                        {
+                            { "tenantId", data.TenantId }
+                        };
+
+            await FirebaseAuth.DefaultInstance.SetCustomUserClaimsAsync(data.Uid, customClaims);
+
             return true;
+
+        }
 
         return false;
 

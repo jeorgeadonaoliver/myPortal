@@ -13,6 +13,7 @@ using myPortal.Authentication.Infrastructure.Cache;
 using myPortal.Authentication.Infrastructure.PortalDb;
 using myPortal.Authentication.Infrastructure.Request;
 using myPortal.Authentication.Infrastructure.Service;
+using System.Security.Claims;
 
 namespace myPortal.Authentication.Infrastructure;
 
@@ -103,7 +104,8 @@ public static class InfrastructureServiceRegistration
                     ValidIssuer = $"https://securetoken.google.com/{firebaseProjectId}",
                     ValidateAudience = true,
                     ValidAudience = firebaseProjectId,
-                    ValidateLifetime = true
+                    ValidateLifetime = true,
+                    NameClaimType = ClaimTypes.NameIdentifier
                 };
             });
 

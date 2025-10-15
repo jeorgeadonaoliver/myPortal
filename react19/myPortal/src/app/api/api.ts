@@ -9,7 +9,7 @@ const api = axios.create({
 api.interceptors.request.use(async (config) => {
 
   const auth = getAuth();
-  const token = await auth.currentUser?.getIdToken(); 
+  const token = await auth.currentUser?.getIdToken(true); 
   console.log("Firebase Token:", token);
 
   if(token){

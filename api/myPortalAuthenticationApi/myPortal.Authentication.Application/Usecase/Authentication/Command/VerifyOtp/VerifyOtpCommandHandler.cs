@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FirebaseAdmin.Auth;
+using FirebaseAdmin.Auth.Multitenancy;
+using Microsoft.EntityFrameworkCore;
 using myPortal.Authentication.Application.Abstraction.Authentication;
 using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Request;
@@ -25,7 +27,7 @@ public class VerifyOtpCommandHandler : IRequestHandler<VerifyOtpCommand, bool>
 
                    var data = await db.CustomerAccounts
                        .Where(c => c.Uid == request.uid)
-                       .Select(c => new { c.SecretKey, c.Id })
+                       .Select(c => new { c.SecretKey, c.Id, c.TenantId })
                        .FirstOrDefaultAsync(ct);
 
                    var result = _mfaservice.VerifyTotp(data.SecretKey ?? "", request.otp);

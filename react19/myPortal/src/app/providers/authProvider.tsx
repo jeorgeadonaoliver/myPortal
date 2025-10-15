@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     {
       const userinfo = await signInWithEmailAndPassword(auth, email, password);
 
-      const token = await userinfo.user.getIdToken();
+      const token = await userinfo.user.getIdToken(true);
       const response = await verifyToken(token);
       
       localStorage.setItem("authToken", token);
