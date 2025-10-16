@@ -8,9 +8,9 @@ public interface ITenantContext
     
     bool IsImpersonating { get; }
 
-    void SetTenantId(string tenantid);
+    void SetTenantId(string tenantId);
 
-    void SetOriginalTenantId(string tenantid);
+    void SetOriginalTenantId(string tenantId);
 
     void ClearImpersonation();
 }

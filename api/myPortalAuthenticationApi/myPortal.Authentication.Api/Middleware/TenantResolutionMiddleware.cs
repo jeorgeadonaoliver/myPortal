@@ -1,4 +1,6 @@
-﻿using myPortal.Authentication.Application.Abstraction.Authentication;
+﻿using FirebaseAdmin.Auth;
+using myPortal.Authentication.Application.Abstraction.Authentication;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace myPortal.Authentication.Api.Middleware;
 
@@ -20,7 +22,8 @@ public class TenantResolutionMiddleware
 
             if (tenantIdClaim != null && !string.IsNullOrEmpty(tenantIdClaim.Value))
             {
-                tenantContext.SetTenantId(tenantid: tenantIdClaim.Value);
+                tenantContext.SetTenantId(tenantId: tenantIdClaim.Value);
+
             }
         }
         //if (context.Request.Headers.TryGetValue(TenantIdClaimType, out var tenantId) && !string.IsNullOrEmpty(tenantId))

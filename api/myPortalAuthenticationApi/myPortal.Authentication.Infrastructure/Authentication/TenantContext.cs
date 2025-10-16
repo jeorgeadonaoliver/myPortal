@@ -17,16 +17,16 @@ public class TenantContext : ITenantContext
         IsImpersonating = false;
     }
 
-    public void SetOriginalTenantId(string tenantid)
+    public void SetOriginalTenantId(string tenantId)
     {
         if (OriginalTenantId == null)
             OriginalTenantId = CurrentTenantId;
 
-        CurrentTenantId = tenantid;
+        CurrentTenantId = tenantId;
     }
 
-    public void SetTenantId(string tenantid)
+    public void SetTenantId(string tenantId)
     {
-        CurrentTenantId = tenantid;
+        CurrentTenantId = tenantId;
     }
 }

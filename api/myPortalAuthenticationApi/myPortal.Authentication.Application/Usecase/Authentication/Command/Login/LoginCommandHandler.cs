@@ -9,29 +9,34 @@ namespace myPortal.Authentication.Application.Usecase.Authentication.Command.Log
 internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, bool>
 {
     private readonly IJwtService _jwtService;
+    private readonly ITenantContext _tenantContext;
 
     protected readonly IMyPortalDbContext _context;
 
-    public LoginCommandHandler(IJwtService jwtService, IMyPortalDbContext context)
+    public LoginCommandHandler(IJwtService jwtService, IMyPortalDbContext context, ITenantContext tenantContext)
     {
         _jwtService = jwtService;
         _context = context;
+        _tenantContext = tenantContext;
     }
 
     public async Task<bool> HandleAsync(LoginCommand request, CancellationToken cancellationToken)
     {
         var data = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(request.token);
 
-        var result = await _context.CustomerAccounts.AnyAsync(x => x.Uid == data.Uid);
+        var result = await _context.CustomerAccounts.Where(x => x.Uid == data.Uid)
+            .Select(y => y.TenantId).FirstOrDefaultAsync(cancellationToken);
 
-        if (result)
+        if (result != Guid.Empty)
         {
-            var customClaims = new Dictionary<string, object>
-                        {
-                            { "tenantId", data.TenantId }
-                        };
-
-            await FirebaseAuth.DefaultInstance.SetCustomUserClaimsAsync(data.Uid, customClaims);
+            var user = await FirebaseAuth.DefaultInstance.GetUserAsync(data.Uid);
+            if (!user.CustomClaims.ContainsKey("tenantId"))
+            {
+                await FirebaseAuth.DefaultInstance.SetCustomUserClaimsAsync(data.Uid, new Dictionary<string, object>
+                {
+                    { "tenantId", data.TenantId }
+                });
+            }
 
             return true;
 
