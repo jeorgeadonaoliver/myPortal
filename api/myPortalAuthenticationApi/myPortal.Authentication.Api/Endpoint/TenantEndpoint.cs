@@ -1,5 +1,7 @@
 ﻿using myPortal.Authentication.Application.Abstraction.Request;
 using myPortal.Authentication.Application.Usecase.Tenants.Command.CreateTenant;
+using myPortal.Authentication.Application.Usecase.Tenants.Command.ImpersonateTenant;
+using myPortal.Authentication.Application.Usecase.Tenants.Command.StopImpersonateTenant;
 using myPortal.Authentication.Application.Usecase.Tenants.Command.UpdateTenant;
 using myPortal.Authentication.Application.Usecase.Tenants.Query.GetTenant;
 using myPortal.Authentication.Application.Usecase.Tenants.Query.GetTenantById;
@@ -41,6 +43,23 @@ public static class TenantEndpoint
         })
         .WithName("GetTenantbyId")
         .WithOpenApi();
+
+        app.MapPost("/impersonateTenant", async (ImpersonateTenantCommand cmd, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+        {
+            var result = await dispatcher.Send(cmd, cancellationToken);
+            return Results.Ok(result);
+        })
+        .WithName("ImpersonateTenant")
+        .WithOpenApi();
+
+        app.MapPost("/stopImpersonateTenant", async (StopImpersonateTenantCommand cmd, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+        {
+            var result = await dispatcher.Send(cmd, cancellationToken);
+            return Results.Ok(result);
+        })
+        .WithName("StopImpersonateTenant")
+        .WithOpenApi();
+
 
         return app;
     }

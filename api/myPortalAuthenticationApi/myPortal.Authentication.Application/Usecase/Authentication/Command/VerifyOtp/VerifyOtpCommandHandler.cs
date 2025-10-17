@@ -1,6 +1,4 @@
-﻿using FirebaseAdmin.Auth;
-using FirebaseAdmin.Auth.Multitenancy;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using myPortal.Authentication.Application.Abstraction.Authentication;
 using myPortal.Authentication.Application.Abstraction.Data;
 using myPortal.Authentication.Application.Abstraction.Request;

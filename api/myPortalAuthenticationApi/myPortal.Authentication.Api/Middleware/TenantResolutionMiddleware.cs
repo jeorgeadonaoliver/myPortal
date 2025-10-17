@@ -1,6 +1,4 @@
-﻿using FirebaseAdmin.Auth;
-using myPortal.Authentication.Application.Abstraction.Authentication;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using myPortal.Authentication.Application.Abstraction.Authentication;
 
 namespace myPortal.Authentication.Api.Middleware;
 
@@ -16,21 +14,16 @@ public class TenantResolutionMiddleware
 
     public async Task InvokeAsync(HttpContext context, ITenantContext tenantContext) 
     {
-        if (context.User.Identity.IsAuthenticated)
+        var user = context.User;
+        if (user.Identity?.IsAuthenticated == true)
         {
-            var tenantIdClaim = context.User.FindFirst(TenantIdClaimType);
+            var tenantIdId = user.FindFirst(TenantIdClaimType)?.Value;
 
-            if (tenantIdClaim != null && !string.IsNullOrEmpty(tenantIdClaim.Value))
+            if (!string.IsNullOrEmpty(tenantIdId))
             {
-                tenantContext.SetTenantId(tenantId: tenantIdClaim.Value);
-
+                tenantContext.SetTenantId(tenantId: tenantIdId);
             }
         }
-        //if (context.Request.Headers.TryGetValue(TenantIdClaimType, out var tenantId) && !string.IsNullOrEmpty(tenantId))
-        //{
-        //    tenantContext.SetTenantId(tenantid: tenantId);
-        //}
-
 
         await _next(context);
     }

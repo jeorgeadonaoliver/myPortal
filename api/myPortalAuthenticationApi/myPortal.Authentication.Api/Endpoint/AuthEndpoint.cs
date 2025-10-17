@@ -27,6 +27,7 @@ public static class AuthEndpoint
             return Results.Ok(new { success = isAuthorize });
 
         })
+        .RequireAuthorization()
         .WithOpenApi();
         
 

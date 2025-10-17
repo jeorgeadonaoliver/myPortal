@@ -10,7 +10,7 @@ public interface ITenantContext
 
     void SetTenantId(string tenantId);
 
-    void SetOriginalTenantId(string tenantId);
+    void ImpersonateTenant(string tenantId);
 
     void ClearImpersonation();
 }

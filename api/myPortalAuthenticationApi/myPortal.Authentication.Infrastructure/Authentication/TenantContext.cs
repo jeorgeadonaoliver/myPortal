@@ -12,21 +12,27 @@ public class TenantContext : ITenantContext
 
     public void ClearImpersonation()
     {
-        OriginalTenantId = null;
-        CurrentTenantId = null;
-        IsImpersonating = false;
+        if (IsImpersonating == true)
+        {
+            CurrentTenantId = OriginalTenantId;
+            CurrentTenantId = null;
+            IsImpersonating = false;
+        }
     }
 
-    public void SetOriginalTenantId(string tenantId)
+    public void ImpersonateTenant(string tenantId)
     {
-        if (OriginalTenantId == null)
+        if (IsImpersonating == false)
+        {
             OriginalTenantId = CurrentTenantId;
-
-        CurrentTenantId = tenantId;
+            CurrentTenantId = tenantId;
+            IsImpersonating = true;
+        }
     }
 
     public void SetTenantId(string tenantId)
     {
-        CurrentTenantId = tenantId;
+        if(IsImpersonating == true)
+            CurrentTenantId = tenantId;
     }
 }

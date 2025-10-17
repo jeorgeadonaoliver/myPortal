@@ -44,9 +44,13 @@ app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
+app.UseMiddleware<FirebaseAuthenticationMiddleware>();
+app.UseMiddleware<TenantResolutionMiddleware>();
+
 app.UseAuthorization();
 
-app.UseMiddleware<TenantResolutionMiddleware>();
+
 
 app.MapAuthEndpoint();
 app.MapCustomerAccountEndpoint();
