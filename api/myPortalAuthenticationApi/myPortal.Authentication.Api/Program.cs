@@ -46,7 +46,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseMiddleware<FirebaseAuthenticationMiddleware>();
-app.UseMiddleware<TenantResolutionMiddleware>();
 
 app.UseAuthorization();
 

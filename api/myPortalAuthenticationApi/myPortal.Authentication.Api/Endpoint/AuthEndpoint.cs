@@ -1,4 +1,5 @@
-﻿using myPortal.Authentication.Application.Abstraction.Request;
+﻿using myPortal.Authentication.Application.Abstraction.Authentication;
+using myPortal.Authentication.Application.Abstraction.Request;
 using myPortal.Authentication.Application.Usecase.Authentication.Command.Login;
 using myPortal.Authentication.Application.Usecase.Authentication.Command.VerifyOtp;
 
@@ -8,9 +9,10 @@ public static class AuthEndpoint
 {
     public static IEndpointRouteBuilder MapAuthEndpoint(this IEndpointRouteBuilder app) 
     {
-        app.MapPost("/auth/otp", (HttpContext httpContext, VerifyOtpCommand command, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
+        app.MapPost("/auth/otp", (ICurrentUser user, VerifyOtpCommand command, IRequestDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
-            var uid = httpContext.User.FindFirst("user_id")?.Value;
+            //var uid = httpContext.User.FindFirst("user_id")?.Value;
+            var uid = user.UserId;
             if (uid == null) return Results.Unauthorized();
             var response = dispatcher.Send(command with { uid = uid }, cancellationToken);
 

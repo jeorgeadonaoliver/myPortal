@@ -59,7 +59,9 @@ public static class InfrastructureServiceRegistration
             Credential = GoogleCredential.FromFile("firebase.json")
         });
 
-        services.AddScoped<ITenantContext, TenantContext>();
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<ICurrentUser, HttpContextCurrentUser>();
 
 
         return services;
@@ -78,6 +80,9 @@ public static class InfrastructureServiceRegistration
 
         services.AddMemoryCache();
         services.AddScoped<ICacheService, CacheService>();
+        services.AddScoped<IUserCacheService, UserCacheService>();
+        services.AddTransient<ICacheKeyProvider, CacheKeyProvider>();
+
 
         services.AddHttpClient<IJwtService, JwtService>((sp, client) =>
         {

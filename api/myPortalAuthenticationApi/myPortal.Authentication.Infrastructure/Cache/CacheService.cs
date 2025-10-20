@@ -1,39 +1,47 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using myPortal.Authentication.Application.Abstraction.Data;
-using System.Text.Json;
 
-namespace myPortal.Authentication.Infrastructure.Cache
+namespace myPortal.Authentication.Infrastructure.Cache;
+
+internal class CacheService : ICacheService
 {
-    internal class CacheService : ICacheService
+    private readonly IMemoryCache _cache;
+    private readonly ICacheKeyProvider _cacheKeyProvider;
+
+    public CacheService(IMemoryCache cache, ICacheKeyProvider cacheKeyProvider)
     {
-        private readonly IMemoryCache _cache;
+        _cache = cache;
+        _cacheKeyProvider = cacheKeyProvider;
+    }
 
-        public CacheService(IMemoryCache cache)
+    public Task<T?> GetAsync<T>(string id, CancellationToken cancellationToken = default)
+    {
+        string cacheKey = _cacheKeyProvider.GetCacheKey(id);
+        if (_cache.TryGetValue(cacheKey, out var value) && value is T typedValue)
         {
-            _cache = cache;
+            return Task.FromResult(typedValue);
         }
 
-        public Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default)
-        {
-            _cache.TryGetValue(key, out T? value);
-            return Task.FromResult(value);
-        }
+        return Task.FromResult(default(T)!);
+    }
 
-        public Task SetAsync<T>(string key, T value, TimeSpan? expiration = null, CancellationToken cancellationToken = default)
+    public Task SetAsync<T>(string id, T value, TimeSpan? expiration = null, CancellationToken cancellationToken = default)
+    {
+        var options = new MemoryCacheEntryOptions
         {
-            var options = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = expiration ?? TimeSpan.FromMinutes(10)
-            };
-            _cache.Set(key, value, options);
-            return Task.CompletedTask;
-        }
+            AbsoluteExpirationRelativeToNow = expiration ?? TimeSpan.FromMinutes(10)
+        };
 
-        public Task RemoveAsync(string key, CancellationToken cancellationToken = default)
-        {
-            _cache.Remove(key);
-            return Task.CompletedTask;
-        }
+        string cacheKey = _cacheKeyProvider.GetCacheKey(id);
+        _cache.Set(cacheKey, value, options);
+        return Task.CompletedTask;
+    }
+
+    public Task RemoveAsync(string id, CancellationToken cancellationToken = default)
+    {
+        string cacheKey = _cacheKeyProvider.GetCacheKey(id);
+        _cache.Remove(cacheKey);
+        return Task.CompletedTask;
     }
 }

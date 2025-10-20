@@ -6,18 +6,17 @@ using myPortal.Authentication.Application.Abstraction.Request;
 
 namespace myPortal.Authentication.Application.Usecase.Authentication.Command.Login;
 
-internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, bool>
+internal class LoginCommandHandler : IRequestHandler<LoginCommand, bool>
 {
     private readonly IJwtService _jwtService;
-    private readonly ITenantContext _tenantContext;
-
+    private readonly IUserCacheService _cacheService;
     protected readonly IMyPortalDbContext _context;
 
-    public LoginCommandHandler(IJwtService jwtService, IMyPortalDbContext context, ITenantContext tenantContext)
+    public LoginCommandHandler(IJwtService jwtService, IMyPortalDbContext context, IUserCacheService cacheService)
     {
         _jwtService = jwtService;
         _context = context;
-        _tenantContext = tenantContext;
+        _cacheService = cacheService;
     }
 
     public async Task<bool> HandleAsync(LoginCommand request, CancellationToken cancellationToken)
@@ -29,14 +28,11 @@ internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, bool>
 
         if (result != Guid.Empty)
         {
-            var user = await FirebaseAuth.DefaultInstance.GetUserAsync(data.Uid);
-            if (!user.CustomClaims.ContainsKey("tenantId"))
-            {
-                await FirebaseAuth.DefaultInstance.SetCustomUserClaimsAsync(data.Uid, new Dictionary<string, object>
-                {
-                    { "tenantId", data.TenantId }
-                });
-            }
+            //await _cacheService.SetAsync<string>(key: CacheKey.TenantId , value: result.ToString(), 
+            //    TimeSpan.FromMinutes(30), 
+            //    cancellationToken);
+
+            await _cacheService.SetCachUserId(data.Uid, cancellationToken);
 
             return true;
 
