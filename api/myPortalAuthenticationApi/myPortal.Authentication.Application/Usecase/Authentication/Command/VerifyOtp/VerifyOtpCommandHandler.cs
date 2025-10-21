@@ -10,11 +10,13 @@ public class VerifyOtpCommandHandler : IRequestHandler<VerifyOtpCommand, bool>
 {
     protected readonly IUnitOfWork _context;
     private readonly IMfaService _mfaservice;
+    private readonly ITenantCacheService _tenantCacheService;
 
-    public VerifyOtpCommandHandler(IUnitOfWork context, IMfaService mfaservice)
+    public VerifyOtpCommandHandler(IUnitOfWork context, IMfaService mfaservice, ITenantCacheService tenantCacheService)
     {
         _context = context;
         _mfaservice = mfaservice;
+        _tenantCacheService = tenantCacheService;
     }
 
     public async Task<bool> HandleAsync(VerifyOtpCommand request, CancellationToken cancellationToken)
@@ -29,6 +31,8 @@ public class VerifyOtpCommandHandler : IRequestHandler<VerifyOtpCommand, bool>
                        .FirstOrDefaultAsync(ct);
 
                    var result = _mfaservice.VerifyTotp(data.SecretKey ?? "", request.otp);
+
+                   await _tenantCacheService.SetCacheTenantId(data.TenantId.ToString(), ct);
 
                    if (result)
                    {

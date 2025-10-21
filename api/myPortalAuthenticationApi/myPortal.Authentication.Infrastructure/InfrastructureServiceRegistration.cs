@@ -81,6 +81,7 @@ public static class InfrastructureServiceRegistration
         services.AddMemoryCache();
         services.AddScoped<ICacheService, CacheService>();
         services.AddScoped<IUserCacheService, UserCacheService>();
+        services.AddScoped<ITenantCacheService, TenantCacheService>();
         services.AddTransient<ICacheKeyProvider, CacheKeyProvider>();
 
 

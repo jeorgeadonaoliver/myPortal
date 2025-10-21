@@ -6,7 +6,7 @@ namespace myPortal.Authentication.Infrastructure.Authentication
 {
     public class HttpContextCurrentUser : ICurrentUser
     {
-        private readonly ClaimsPrincipal _user;
+        private readonly ClaimsPrincipal? _user;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public HttpContextCurrentUser(IHttpContextAccessor httpContextAccessor)
